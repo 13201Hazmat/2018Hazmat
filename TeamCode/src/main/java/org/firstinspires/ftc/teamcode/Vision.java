@@ -33,16 +33,68 @@ public class Vision extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection = cameraDirection;
+
+        //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Load the data sets for the trackable objects and stores them in the 'assets' part of our application.
         VuforiaTrackables roverRuckusTargets = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
         VuforiaTrackable blueRover = roverRuckusTargets.get(0);
         VuforiaTrackable redFootprint = roverRuckusTargets.get(1);
         VuforiaTrackable frontCraters = roverRuckusTargets.get(2);
         VuforiaTrackable backSpace = roverRuckusTargets.get(3);
+
+        // Gathers together all the trackable objects in one easily-iterable collection
         ArrayList<VuforiaTrackable> RoverRuckusTrackables = new ArrayList<VuforiaTrackable>(4);
         RoverRuckusTrackables.addAll(roverRuckusTargets);
 
+        /**
+         * To place the BlueRover target in the middle of the blue perimeter wall:
+         * - First we rotate it 90 around the field's X axis to flip it upright.
+         * - Then, we translate it along the Y axis to the blue perimeter wall.
+         */
+        OpenGLMatrix blueRoverLocationOnField = OpenGLMatrix
+                .translation(0, mmFTCFieldWidth, mmTargetHeight)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0));
+        blueRover.setLocation(blueRoverLocationOnField);
+
+        /**
+         * To place the RedFootprint target in the middle of the red perimeter wall:
+         * - First we rotate it 90 around the field's X axis to flip it upright.
+         * - Second, we rotate it 180 around the field's Z axis so the image is flat against the red perimeter wall
+         *   and facing inwards to the center of the field.
+         * - Then, we translate it along the negative Y axis to the red perimeter wall.
+         */
+        OpenGLMatrix redFootprintLocationOnField = OpenGLMatrix
+                .translation(0, -mmFTCFieldWidth, mmTargetHeight)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180));
+        redFootprint.setLocation(redFootprintLocationOnField);
+
+        /**
+         * To place the FrontCraters target in the middle of the front perimeter wall:
+         * - First we rotate it 90 around the field's X axis to flip it upright.
+         * - Second, we rotate it 90 around the field's Z axis so the image is flat against the front wall
+         *   and facing inwards to the center of the field.
+         * - Then, we translate it along the negative X axis to the front perimeter wall.
+         */
+        OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
+                .translation(-mmFTCFieldWidth, 0, mmTargetHeight)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
+        frontCraters.setLocation(frontCratersLocationOnField);
+
+        /**
+         * To place the BackSpace target in the middle of the back perimeter wall:
+         * - First we rotate it 90 around the field's X axis to flip it upright.
+         * - Second, we rotate it -90 around the field's Z axis so the image is flat against the back wall
+         *   and facing inwards to the center of the field.
+         * - Then, we translate it along the X axis to the back perimeter wall.
+         */
+        OpenGLMatrix backSpaceLocationOnField = OpenGLMatrix
+                .translation(mmFTCFieldWidth, 0, mmTargetHeight)
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
+        backSpace.setLocation(backSpaceLocationOnField);
     }
 }
