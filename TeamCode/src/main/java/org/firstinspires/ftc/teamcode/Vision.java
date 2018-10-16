@@ -53,10 +53,10 @@ public class Vision extends LinearOpMode {
 
         setUpVuforiaTrackables("RoverRuckus");
         // Load the data sets for the trackable objects and stores them in the 'assets' part of our application.
-        VuforiaTrackable blueRover = allTargets.get(0);
-        VuforiaTrackable redFootprint = allTargets.get(1);
-        VuforiaTrackable frontCraters = allTargets.get(2);
-        VuforiaTrackable backSpace = allTargets.get(3);
+        VuforiaTrackable blueRover = allTargets.get(0); // Blue Rover
+        VuforiaTrackable redFootprint = allTargets.get(1); // Red Footprint
+        VuforiaTrackable frontCraters = allTargets.get(2); // Front Craters
+        VuforiaTrackable backSpace = allTargets.get(3); // Back Space
 
         /**
          * To place the BlueRover target in the middle of the blue perimeter wall:
