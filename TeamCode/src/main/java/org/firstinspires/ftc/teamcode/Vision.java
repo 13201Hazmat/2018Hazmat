@@ -56,7 +56,7 @@ public class Vision extends LinearOpMode {
 
         setUpVuforiaTrackables("RoverRuckus");
 
-        String[] trackableNames = {"Blue-Rover", "Red-Footprint", "Front-Craters", "Back-Space"};
+        String[] trackableNames = {"BluePerimeter", "RedPerimeter", "FrontPerimeter", "BackPerimeter"};
         nameTrackables(trackableNames);
         // Load the data sets for the trackable objects and stores them in the 'assets' part of our application.
         VuforiaTrackable blueRover = allTargets.get(0); // Blue Rover
