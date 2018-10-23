@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -20,6 +22,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
+@Autonomous(name = "Vuforia-Test")
 public class Vision extends LinearOpMode {
     // Licence key in order to utilize the Vuforia methods and objects
     private static final String VUFORIA_KEY = "AfH1Zl//////AAABmR491lMHykEBobd9/V5Ni4yNrRLaQsIdeGQ4B8qbKvPivDl2OuKmWe78D8/ZtKpaUqH8DbY4Z0uaKkxQVKinzPM7WrCpEKyV7ujG97N2Stb+nRAZ37IYIn67v1ol79c9rUcM/4JGy3sicrICs8WiEIhs/lnWhwKRZWnyi8cBxHddBv13O8UxzIhnzZsuHBYJ78e5V+kPXg5xbly/b24LPxxyt01ZZq7vvP0ipO759SbJlp8XO8Apn/V5jJT/W9YSQoaPY1Xpys+ka4e/LA0ONVNNE+8dQbvsx23OIOcZCoZaX62TRCj+sMUJ8pxjQUqEu8QOAkw87ZFkjBdGfKuCKovTpo89ziOs3z9ccZ4cbzAu";
@@ -52,6 +55,9 @@ public class Vision extends LinearOpMode {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         setUpVuforiaTrackables("RoverRuckus");
+
+        String[] trackableNames = {"Blue-Rover", "Red-Footprint", "Front-Craters", "Back-Space"};
+        nameTrackables(trackableNames);
         // Load the data sets for the trackable objects and stores them in the 'assets' part of our application.
         VuforiaTrackable blueRover = allTargets.get(0); // Blue Rover
         VuforiaTrackable redFootprint = allTargets.get(1); // Red Footprint
@@ -127,9 +133,21 @@ public class Vision extends LinearOpMode {
                         cameraDirection == FRONT ? 90 : -90, 0, 0));
     }
 
+    private void nameTrackables(String[] names){
+        if (names.length != allTrackables.size()){
+            telemetry.addData("Number of names does not  match number of vision targets", "");
+        } else {
+            for (int i = 0; i < names.length; i++) {
+                allTrackables.get(i).setName(names[i]);
+            }
+        }
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         setUpVuforia();
+
+        setUpPhoneMatrix(0,0,0);
 
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
@@ -138,10 +156,34 @@ public class Vision extends LinearOpMode {
         // Start tracking the data sets we care about
         allTargets.activate();
 
+        while (opModeIsActive()){
 
+            targetVisible = false;
+            for (VuforiaTrackable trackable: allTrackables){
+                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()){
+                    telemetry.addData("Visible Target", trackable.getName());
+                    targetVisible = true;
 
+                    OpenGLMatrix robotLocationTransform =  ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform !=null){
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
+                }
+            }
 
+            if (targetVisible){
+                VectorF translation = lastLocation.getTranslation();
+                telemetry.addData("Pos (in)", "(X,Y,Z) = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(0) / mmPerInch, translation.get(0) / mmPerInch);
 
-
+                Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            }
+            else {
+                telemetry.addData("Visible Target", "none");
+            }
+            telemetry.update();
+        }
     }
 }
