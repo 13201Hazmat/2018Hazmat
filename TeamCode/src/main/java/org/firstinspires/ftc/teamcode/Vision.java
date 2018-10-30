@@ -31,7 +31,7 @@ public class Vision extends LinearOpMode {
     private static final float FIELDWIDTH = (12*6) * mmPerInch;
     private static final float TARGETHEIGHT = 6*mmPerInch;
     // VuforiaLoclizer allows us to call and use Vuforia methods and classes
-    private static VuforiaLocalizer vuforia;
+    VuforiaLocalizer vuforia;
     // Initializes the camera direction
     private static final VuforiaLocalizer.CameraDirection cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
     private OpenGLMatrix lastLocation = null;
@@ -46,7 +46,8 @@ public class Vision extends LinearOpMode {
     }
 
     private void setUpVuforia(){
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection = cameraDirection;
@@ -56,7 +57,7 @@ public class Vision extends LinearOpMode {
 
         setUpVuforiaTrackables("RoverRuckus");
 
-        String[] trackableNames = {"BluePerimeter", "RedPerimeter", "FrontPerimeter", "BackPerimeter"};
+        String[] trackableNames = {"Blue-Rover", "Red-Footprint", "Front-Craters", "Back-Space"};
         nameTrackables(trackableNames);
         // Load the data sets for the trackable objects and stores them in the 'assets' part of our application.
         VuforiaTrackable blueRover = allTargets.get(0); // Blue Rover
@@ -70,7 +71,7 @@ public class Vision extends LinearOpMode {
          * - Then, we translate it along the Y axis to the blue perimeter wall.
          */
         OpenGLMatrix blueRoverLocationOnField = OpenGLMatrix
-                .translation(0, -FIELDWIDTH, TARGETHEIGHT)
+                .translation(0, FIELDWIDTH, TARGETHEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0));
         blueRover.setLocation(blueRoverLocationOnField);
 
@@ -110,6 +111,8 @@ public class Vision extends LinearOpMode {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
         backSpace.setLocation(backSpaceLocationOnField);
 
+        setUpPhoneMatrix(0,0,0);
+
         /**  Let all the trackable listeners know where the phone is.  */
         for (VuforiaTrackable trackable : allTrackables)
         {
@@ -146,8 +149,6 @@ public class Vision extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         setUpVuforia();
-
-        setUpPhoneMatrix(0,0,0);
 
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
