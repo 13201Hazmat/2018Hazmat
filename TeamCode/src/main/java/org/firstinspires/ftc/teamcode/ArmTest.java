@@ -7,17 +7,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @Autonomous(name = "ArmTest")
 public class ArmTest extends LinearOpMode {
     private DcMotor armMotor;
-    public void runOpMode() {
+    private DcMotor intakeMotor1;
+    private DcMotor intakeMotor2;
+    public void runOpMode(){
         armMotor = hardwareMap.dcMotor.get("armMotor");
+        intakeMotor1 = hardwareMap.dcMotor.get("intakeMotor1");
+        intakeMotor2 = hardwareMap.dcMotor.get("intakeMotor2");
+
         waitForStart();
+        intakeMotor1.setPower(-0.7);
+        intakeMotor2.setPower(0.7);
+
+        sleep(500);
+
+        intakeMotor1.setPower(0);
+        intakeMotor2.setPower(0);
         //Reset Encoder
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setTargetPosition(0);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        armMotor.setPower(-0.2);
+        armMotor.setPower(-0.3);
         while (opModeIsActive()) {
-            if (armMotor.getCurrentPosition() <= -300) {
+            if (armMotor.getCurrentPosition() <= -500) {
                 armMotor.setPower(0);
             }
         }
