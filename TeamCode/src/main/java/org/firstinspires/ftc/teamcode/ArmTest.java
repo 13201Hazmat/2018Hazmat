@@ -20,8 +20,8 @@ public class ArmTest extends LinearOpMode {
 
         sleep(500);
 
-        intakeMotor1.setPower(0);
-        intakeMotor2.setPower(0);
+        //intakeMotor1.setPower(0);
+        //intakeMotor2.setPower(0);
         //Reset Encoder
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setTargetPosition(0);
