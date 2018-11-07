@@ -18,9 +18,9 @@ public class ArmTest extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-        if (controller.y) {
-            intakeMotor1.setPower(0.7);
-            intakeMotor2.setPower(-0.7);
+        if (true) {
+            intakeMotor1.setPower(-0.7);
+            intakeMotor2.setPower(0.7);
         } else {
             intakeMotor1.setPower(0);
             intakeMotor2.setPower(0);
