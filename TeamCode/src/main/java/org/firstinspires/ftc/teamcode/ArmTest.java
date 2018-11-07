@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad.*;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "ArmTest")
@@ -11,15 +11,14 @@ public class ArmTest extends LinearOpMode {
     private DcMotor intakeMotor1;
     private DcMotor intakeMotor2;
     private Gamepad controller;
-    public void runOpMode(Gamepad c){
+    public void runOpMode(){
         armMotor = hardwareMap.dcMotor.get("armMotor");
         intakeMotor1 = hardwareMap.dcMotor.get("intakeMotor1");
         intakeMotor2 = hardwareMap.dcMotor.get("intakeMotor2");
-        controller = c;
 
         waitForStart();
         while(opModeIsActive()){
-        if (controller.x()) {
+        if (controller.y) {
             intakeMotor1.setPower(0.7);
             intakeMotor2.setPower(-0.7);
         } else {
