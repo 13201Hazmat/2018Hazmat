@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Gamepad.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "ArmTest")
@@ -18,10 +18,15 @@ public class ArmTest extends LinearOpMode {
         controller = c;
 
         waitForStart();
-        
-        intakeMotor1.setPower(0.7);
-        intakeMotor2.setPower(-0.7);
-
+        while(){
+        if (controller.x()) {
+            intakeMotor1.setPower(0.7);
+            intakeMotor2.setPower(-0.7);
+        } else {
+            intakeMotor1.setPower(0);
+            intakeMotor2.setPower(0);
+        }
+        }
         sleep(500);
 
         //intakeMotor1.setPower(0);
