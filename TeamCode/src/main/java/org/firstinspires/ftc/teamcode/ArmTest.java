@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name = "ArmTest")
@@ -9,6 +10,7 @@ public class ArmTest extends LinearOpMode {
     private DcMotor armMotor;
     private DcMotor intakeMotor1;
     private DcMotor intakeMotor2;
+    private gamepad;
     public void runOpMode(){
         armMotor = hardwareMap.dcMotor.get("armMotor");
         intakeMotor1 = hardwareMap.dcMotor.get("intakeMotor1");
