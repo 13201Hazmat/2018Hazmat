@@ -10,15 +10,15 @@ public class ArmTest extends LinearOpMode {
     private DcMotor armMotor;
     private DcMotor intakeMotor1;
     private DcMotor intakeMotor2;
-    private gamepad;
+    private Gamepad controller;
     public void runOpMode(){
         armMotor = hardwareMap.dcMotor.get("armMotor");
         intakeMotor1 = hardwareMap.dcMotor.get("intakeMotor1");
         intakeMotor2 = hardwareMap.dcMotor.get("intakeMotor2");
 
         waitForStart();
-        intakeMotor1.setPower(-0.7);
-        intakeMotor2.setPower(0.7);
+        intakeMotor1.setPower(0.7);
+        intakeMotor2.setPower(-0.7);
 
         sleep(500);
 
