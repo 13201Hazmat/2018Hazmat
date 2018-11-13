@@ -8,12 +8,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @TeleOp(name="ChassisIntakeTest", group="Teleop")
 public class ChassisIntakeTest extends OpMode{
     private Drive drive;
+    private DcMotor intakeR;
+    private DcMotor intakeL;
 
     public void init() {
         DcMotor fl = hardwareMap.dcMotor.get("fl");
         DcMotor bl = hardwareMap.dcMotor.get("fl");
         DcMotor br = hardwareMap.dcMotor.get("fr");
         DcMotor fr = hardwareMap.dcMotor.get("fr");
+
+        intakeR = hardwareMap.dcMotor.get("intakeR");
+        intakeL = hardwareMap.dcMotor.get("intakeL");
+
         drive = new Drive(fl,bl,br,fr);
     }
     public void loop() {
@@ -36,11 +42,11 @@ public class ChassisIntakeTest extends OpMode{
         boolean intake = gamepad1.a;
 
         if (intake) {
-            hardwareMap.dcMotor.get("intakeL").setPower(0.5);
-            hardwareMap.dcMotor.get("intakeR").setPower(-0.5);
+            intakeL.setPower(0.5);
+            intakeR.setPower(-0.5);
         } else {
-            hardwareMap.dcMotor.get("intakeL").setPower(0.0);
-            hardwareMap.dcMotor.get("intakeR").setPower(0.0);
+            intakeR.setPower(0.0);
+            intakeL.setPower(0.0);
         }
     }
 }
