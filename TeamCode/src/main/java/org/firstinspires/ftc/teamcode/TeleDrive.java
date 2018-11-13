@@ -17,7 +17,7 @@ public class TeleDrive {
         double powerRight = LeftJoyStickVal;
         powerLeft += RightJoyStickVal;
         powerRight -= RightJoyStickVal;
-        drive.SetLeftMotors(powerLeft);
+        drive.SetLeftMotors(-powerLeft);
         drive.SetRightMotors(powerRight);
     }
 }
