@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ChassisIntakeTest extends OpMode{
     private Drive drive;
     private TeleDrive teleDrive;
+    private Intake intake;
     private DcMotor intakeR;
     private DcMotor intakeL;
 
@@ -23,18 +24,10 @@ public class ChassisIntakeTest extends OpMode{
 
         drive = new Drive(fl,bl,br,fr);
         teleDrive = new TeleDrive(drive, gamepad1);
+        intake = new Intake(drive, gamepad1, intakeR, intakeL);
     }
     public void loop() {
         teleDrive.Update();
-
-        boolean intake = gamepad1.a;
-
-        if (intake) {
-            intakeL.setPower(0.5);
-            intakeR.setPower(-0.5);
-        } else {
-            intakeR.setPower(0.0);
-            intakeL.setPower(0.0);
-        }
+        intake.Update();
     }
 }
