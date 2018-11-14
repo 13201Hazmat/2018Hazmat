@@ -15,10 +15,11 @@ public class ArmTest extends LinearOpMode {
         armMotor = hardwareMap.dcMotor.get("armMotor");
         intakeMotor1 = hardwareMap.dcMotor.get("intakeMotor1");
         intakeMotor2 = hardwareMap.dcMotor.get("intakeMotor2");
+        controller = gamepad2;
 
         waitForStart();
         while(opModeIsActive()){
-        if (true) {
+        if (controller.a) {
             intakeMotor1.setPower(-0.7);
             intakeMotor2.setPower(0.7);
         } else {
@@ -26,11 +27,12 @@ public class ArmTest extends LinearOpMode {
             intakeMotor2.setPower(0);
         }
         }
-        sleep(500);
-
+        
+        //sleep(500);
         //intakeMotor1.setPower(0);
         //intakeMotor2.setPower(0);
         //Reset Encoder
+
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setTargetPosition(0);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
