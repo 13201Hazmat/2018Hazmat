@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
+@TeleOp(name="ChassisTest", group="Teleop")
 public class TeleOpMode extends LinearOpMode {
     public void runOpMode () {
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
