@@ -1,16 +1,13 @@
-public class CommandFactory{
-    public static ICommand createCommand(String[] args, CommandEnum command){
+package org.firstinspires.ftc.teamcode;
 
-    }
-}
-
-private class DriveCommand implements ICommand{
+import org.firstinspires.ftc.teamcode.*;
+public class DriveCommand implements ICommand{
     private Drive drive;
     private int distance;
     private double power;
     private int currentDistance;
-    public DriveCommnand(Drive drive, int distance, double power){
-        this.drive = drive;
+    public DriveCommand(Drive driveIn, int distance, double power){
+        drive = driveIn;
         this.distance = distance;
         this.power = power;
     }
