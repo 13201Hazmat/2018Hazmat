@@ -19,15 +19,15 @@ public class ChassisIntakeTest extends OpMode{
         DcMotor br = hardwareMap.dcMotor.get("fr");
         DcMotor fr = hardwareMap.dcMotor.get("fr");
 
-        intakeR = hardwareMap.dcMotor.get("intakeR");
-        intakeL = hardwareMap.dcMotor.get("intakeL");
+        //intakeR = hardwareMap.dcMotor.get("intakeR");
+        //intakeL = hardwareMap.dcMotor.get("intakeL");
 
         drive = new Drive(fl,bl,br,fr);
         teleDrive = new TeleDrive(drive, gamepad1);
-        intake = new Intake(drive, gamepad1, intakeR, intakeL);
+        //intake = new Intake(drive, gamepad1, intakeR, intakeL);
     }
     public void loop() {
         teleDrive.Update();
-        intake.Update();
+        //intake.Update();
     }
 }
