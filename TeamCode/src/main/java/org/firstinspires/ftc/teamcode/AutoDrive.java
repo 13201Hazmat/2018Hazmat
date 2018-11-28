@@ -1,49 +1,42 @@
 package org.firstinspires.ftc.teamcode;
 
+import java.util.ArrayList;
 import java.util.Set;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Gyroscope;
 
-public class AutoDrive {
-    private Drive drive;
-    public AutoDrive (Drive d){
-        drive = d;
-    }
+public class AutoDrive extends LinearOpMode {
 
-    public void DriveStraight(double power, int distance){
-        int currentDistance = 0;
-        drive.ResetEncoders();
-        while(currentDistance < distance){
-            drive.SetLeftMotors(power);
-            drive.SetRightMotors(power);
-            int LeftDistance = drive.GetLeftEncoders();
-            int RightDistance = drive.GetRightEncoders();
-            currentDistance = Math.abs((LeftDistance+RightDistance)/2);
-        }
-        drive.SetLeftMotors(0);
-        drive.SetRightMotors(0);
-    }
-    public void Turn(double power, int angle){
-        int currentAngle = 0;
-        drive.ResetEncoders();
-        if (angle > 360) {
-            angle %= 360;
-        }
-        if(0 < angle && angle < 180) {
-            while (currentAngle < angle) {
-                drive.SetLeftMotors(power);
-                drive.SetRightMotors(-power);
-                int LeftAngle = drive.GetLeftEncoders();
-                int RightAngle = drive.GetRightEncoders();
-                currentAngle = Math.abs((LeftAngle+RightAngle)/2);
-            }
-        }
-        if(180 < angle && angle < 360) {
-            while (currentAngle < angle) {
-                drive.SetLeftMotors(-power);
-                drive.SetRightMotors(power);
-                int LeftAngle = drive.GetLeftEncoders();
-                int RightAngle = drive.GetRightEncoders();
-                currentAngle = Math.abs((LeftAngle+RightAngle)/2);
+
+    @Override
+    public void runOpMode(){
+
+        telemetry.addData("Status","Init");
+        telemetry.update();
+        DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
+        DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
+        DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
+        DcMotor BackRightMotor = hardwareMap.dcMotor.get("back_right_motor");
+        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        GyroSensor imu = hardwareMap.get(GyroSensor.class, "imu");
+        waitForStart();
+        while(opModeIsActive()){
+            Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
+            ArrayList<ICommand> commands = new ArrayList<ICommand>();
+            commands.add(new DriveCommand(drive,10,1));
+            commands.add(new TurnCommand(drive,1,90,imu));
+            for(int x=0;x<commands.size();x++){
+                if(commands.get(x) instanceof DriveCommand) {
+                    DriveCommand command = (DriveCommand) commands.get(x);
+                    while (command.runCommand()) {}
+                }else if(commands.get(x) instanceof TurnCommand){
+                    TurnCommand command = (TurnCommand) commands.get(x);
+                    while (command.runCommand()){}
+                }
             }
         }
     }

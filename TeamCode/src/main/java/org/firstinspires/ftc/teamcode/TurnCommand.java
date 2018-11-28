@@ -19,12 +19,13 @@ public class TurnCommand implements ICommand {
         public boolean runCommand(){
             double currentAngle = gyro.getRotationFraction();
             currentAngle *= 360;
+            currentAngle %= 360;
             if (currentAngle < angle){
                 if (angle < 180){
                     drive.SetLeftMotors(power);
-                    drive.SetRightMotors(0);
+                    drive.SetRightMotors(-power);
                 } else if (angle > 180){
-                    drive.SetLeftMotors(0);
+                    drive.SetLeftMotors(-power);
                     drive.SetRightMotors(power);
                 }
                 return false;
