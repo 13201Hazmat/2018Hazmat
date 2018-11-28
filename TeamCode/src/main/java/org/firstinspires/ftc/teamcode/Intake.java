@@ -26,4 +26,11 @@ public class Intake{
     public void setIntakeSpeed(double power) {
         intakeMotor.setPower(power);
     }
+
+    public void stopAtAngle(double angle) {
+        int targetPosition = (int) angle * 4;
+        if (Math.abs(intakeMotor.getCurrentPosition()) % 1440 >= targetPosition) {
+            setIntakeSpeed(0);
+        }
+    }
 }
