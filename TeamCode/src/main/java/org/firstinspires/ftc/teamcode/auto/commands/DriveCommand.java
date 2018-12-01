@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto.commands;
 
-import org.firstinspires.ftc.teamcode.*;
-public class DriveCommand implements ICommand{
+import org.firstinspires.ftc.teamcode.auto.ICommand;
+import org.firstinspires.ftc.teamcode.subsystems.Drive;
+
+public class DriveCommand implements ICommand {
     private Drive drive;
     private int distance;
     private double power;

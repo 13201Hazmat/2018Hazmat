@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto.commands;
 
-import com.qualcomm.hardware.*;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+
+import org.firstinspires.ftc.teamcode.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.auto.ICommand;
 
 public class TurnCommand implements ICommand {
         private Drive drive;
