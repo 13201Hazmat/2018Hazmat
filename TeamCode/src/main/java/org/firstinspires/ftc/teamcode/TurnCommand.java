@@ -22,11 +22,11 @@ public class TurnCommand implements ICommand {
             currentAngle %= 360;
             if (currentAngle < angle){
                 if (angle < 180){
-                    drive.SetLeftMotors(power);
-                    drive.SetRightMotors(-power);
-                } else if (angle > 180){
                     drive.SetLeftMotors(-power);
                     drive.SetRightMotors(power);
+                } else if (angle > 180){
+                    drive.SetLeftMotors(power);
+                    drive.SetRightMotors(-power);
                 }
                 return false;
             } else {
