@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 public enum CommandEnum{
     DRIVECOMMAND,
     TURNCOMMAND
