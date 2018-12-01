@@ -11,6 +11,7 @@ public class DriveCommand implements ICommand{
         this.distance = distance;
         this.power = power;
     }
+    @Override
     public boolean runCommand(){
         if (currentDistance < distance){
             drive.SetLeftMotors(power);

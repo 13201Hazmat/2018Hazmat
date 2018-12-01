@@ -2,30 +2,35 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 public class Intake{
-    private Drive drive;
-    private Gamepad controller;
-    private DcMotor intakeR;
-    private DcMotor intakeL;
+    private DcMotor intakeMotor;
+    private Servo intakeServo;
 
-    public Intake(Drive d, Gamepad c, DcMotor rIntake, DcMotor lIntake){
-        drive = d;
-        controller = c;
-        intakeR = rIntake;
-        intakeL = lIntake;
+    public Intake(DcMotor motor, Servo servo) {
+        intakeMotor = motor;
+        intakeServo = servo;
     }
 
-    public void Update(){
-        boolean intake = controller.a;
-
-        if (intake) {
-            intakeL.setPower(0.5);
-            intakeR.setPower(-0.5);
+    public void setIntakePosition(boolean upDog) {
+        double uncertainServoPosition = 0.0;
+        if (upDog) {
+            intakeServo.setPosition(uncertainServoPosition);
         } else {
-            intakeR.setPower(0.0);
-            intakeL.setPower(0.0);
+            intakeServo.setPosition(uncertainServoPosition);
+        }
+    }
+
+    public void setIntakeSpeed(double power) {
+        intakeMotor.setPower(power);
+    }
+
+    public void stopAtAngle(double angle) {
+        int targetPosition = (int) angle * 4;
+        if (Math.abs(intakeMotor.getCurrentPosition()) % 1440 >= targetPosition) {
+            setIntakeSpeed(0);
         }
     }
 }

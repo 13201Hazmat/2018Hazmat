@@ -12,6 +12,13 @@ public class Drive {
         FrontRightMotor = FrontRightM;
         BackRightMotor = BackRightM;
     }
+
+    public static void reset(Drive drive) {
+        drive.SetLeftMotors(0);
+        drive.SetRightMotors(0);
+        drive.ResetEncoders();
+    }
+
     public void SetLeftMotors(double power){
         FrontLeftMotor.setPower(power);
         BackLeftMotor.setPower(power);
