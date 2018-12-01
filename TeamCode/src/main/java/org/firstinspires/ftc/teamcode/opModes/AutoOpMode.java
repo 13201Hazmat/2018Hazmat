@@ -1,8 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.opModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.teleOp.TeleDrive;
+import org.firstinspires.ftc.teamcode.auto.ICommand;
+import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 
 @Autonomous
 
@@ -12,7 +18,7 @@ public class AutoOpMode extends OpMode {
     private Intake intake;
     private DcMotor intakeR;
     private DcMotor intakeL;
-    private ICommand [] commands = new ICommand[1];
+    private ICommand[] commands = new ICommand[1];
     private int indexCommand = 0;
     public void init() {
         DcMotor fl = hardwareMap.dcMotor.get("fl");
