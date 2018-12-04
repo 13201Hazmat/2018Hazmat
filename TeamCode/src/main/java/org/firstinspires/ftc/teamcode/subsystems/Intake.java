@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 
 public class Intake{
     private DcMotor intakeMotor;
@@ -14,12 +16,12 @@ public class Intake{
         intakeServo = servo;
     }
 
-    public void setIntakePosition(boolean upDog) {
+    public void setIntakePosition(boolean upDog, boolean downDog) {
         double uncertainServoPosition = 0.0;
         if (upDog) {
-            intakeServo.setPosition(uncertainServoPosition);
-        } else {
-            intakeServo.setPosition(uncertainServoPosition);
+            intakeServo.setPosition(intakeServo.getPosition()+.01);
+        } else if(downDog){
+            intakeServo.setPosition(intakeServo.getPosition()-.01);
         }
     }
 
