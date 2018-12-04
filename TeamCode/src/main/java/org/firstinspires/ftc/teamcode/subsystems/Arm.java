@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Arm {
     private final int BOTTOM = 0;
-    private final int MIDDLE = 0;
-    private final int TOP = 0;
+    private final int TOP = 500;
     private DcMotor armMotor;
     private boolean upDog;
 
