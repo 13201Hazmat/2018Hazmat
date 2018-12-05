@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class Intake{
+public class Intake {
     private DcMotor intakeMotor;
     private Servo intakeServo;
 

@@ -20,6 +20,7 @@ public class AutoOpMode extends OpMode {
     private DcMotor intakeL;
     private ICommand[] commands = new ICommand[1];
     private int indexCommand = 0;
+
     public void init() {
         DcMotor fl = hardwareMap.dcMotor.get("fl");
         DcMotor bl = hardwareMap.dcMotor.get("fl");
@@ -29,11 +30,12 @@ public class AutoOpMode extends OpMode {
         /* intakeR = hardwareMap.dcMotor.get("intakeR");
         intakeL = hardwareMap.dcMotor.get("intakeL"); */
 
-        drive = new Drive(fl,bl,br,fr);
+        drive = new Drive(fl, bl, br, fr);
         DriveCommand temp = new DriveCommand(drive, 1000, 1);
         commands[0] = temp;
         // intake = new Intake(drive, gamepad1, intakeR, intakeL);
     }
+
     public void loop() {
         if (indexCommand < commands.length) {
             if (commands[indexCommand].runCommand()) {

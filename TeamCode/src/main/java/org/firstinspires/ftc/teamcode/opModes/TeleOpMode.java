@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.teleOp.TeleDrive;
 import org.firstinspires.ftc.teamcode.teleOp.TeleIntake;
 
-@TeleOp(name="ChassisTest", group="Teleop")
+@TeleOp(name = "ChassisTest", group = "Teleop")
 public class TeleOpMode extends LinearOpMode {
-    public void runOpMode () {
+    public void runOpMode() {
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -26,7 +26,7 @@ public class TeleOpMode extends LinearOpMode {
         Intake intake = new Intake(intakeMotor, phantomServo);
         TeleIntake teleIntake = new TeleIntake(intake, gamepad1);
         waitForStart();
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             teleDrive.Update();
             teleIntake.update();
         }
