@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Drive {
@@ -6,7 +7,8 @@ public class Drive {
     private DcMotor BackLeftMotor;
     private DcMotor FrontRightMotor;
     private DcMotor BackRightMotor;
-    public Drive(DcMotor FrontLeftM, DcMotor BackLeftM, DcMotor BackRightM, DcMotor FrontRightM){
+
+    public Drive(DcMotor FrontLeftM, DcMotor BackLeftM, DcMotor BackRightM, DcMotor FrontRightM) {
         FrontLeftMotor = FrontLeftM;
         BackLeftMotor = BackLeftM;
         FrontRightMotor = FrontRightM;
@@ -19,27 +21,31 @@ public class Drive {
         drive.ResetEncoders();
     }
 
-    public void SetLeftMotors(double power){
+    public void SetLeftMotors(double power) {
         FrontLeftMotor.setPower(power);
         BackLeftMotor.setPower(power);
     }
-    public void SetRightMotors(double power){
+
+    public void SetRightMotors(double power) {
         FrontRightMotor.setPower(power);
         BackRightMotor.setPower(power);
     }
-    public int GetLeftEncoders(){
+
+    public int GetLeftEncoders() {
         int frontVal = FrontLeftMotor.getCurrentPosition();
         int backVal = BackLeftMotor.getCurrentPosition();
-        int val = (frontVal+backVal)/2;
+        int val = (frontVal + backVal) / 2;
         return val;
     }
-    public int GetRightEncoders(){
+
+    public int GetRightEncoders() {
         int frontVal = FrontRightMotor.getCurrentPosition();
         int backVal = BackRightMotor.getCurrentPosition();
-        int val = (frontVal+backVal)/2;
+        int val = (frontVal + backVal) / 2;
         return val;
     }
-    public void ResetEncoders(){
+
+    public void ResetEncoders() {
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BackLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

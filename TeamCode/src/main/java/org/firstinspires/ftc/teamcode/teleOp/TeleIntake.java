@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class TeleIntake {
     private Intake intake;
     private Gamepad controller;
+
     public TeleIntake(Intake in, Gamepad c) {
         intake = in;
         controller = c;
@@ -19,10 +20,10 @@ public class TeleIntake {
         } else {
             intake.stopAtAngle(30.0);
         }
-        if(controller.dpad_down){
-            intake.setIntakePosition(false,true);
-        }else if(controller.dpad_up){
-            intake.setIntakePosition(true,false);
+        if (controller.dpad_down) {
+            intake.setIntakePosition(false, true);
+        } else if (controller.dpad_up) {
+            intake.setIntakePosition(true, false);
         }
     }
 
