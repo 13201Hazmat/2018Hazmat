@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class TeleIntake {
     private Intake intake;
     private Gamepad controller;
+
     public TeleIntake(Intake in, Gamepad c) {
         intake = in;
         controller = c;

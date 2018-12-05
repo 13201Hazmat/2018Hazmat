@@ -24,13 +24,13 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 @Autonomous(name = "Vuforia-Test")
-public class Vision{
+public class Vision {
     // Licence key in order to utilize the Vuforia methods and objects
     private static final String VUFORIA_KEY = "AfH1Zl//////AAABmR491lMHykEBobd9/V5Ni4yNrRLaQsIdeGQ4B8qbKvPivDl2OuKmWe78D8/ZtKpaUqH8DbY4Z0uaKkxQVKinzPM7WrCpEKyV7ujG97N2Stb+nRAZ37IYIn67v1ol79c9rUcM/4JGy3sicrICs8WiEIhs/lnWhwKRZWnyi8cBxHddBv13O8UxzIhnzZsuHBYJ78e5V+kPXg5xbly/b24LPxxyt01ZZq7vvP0ipO759SbJlp8XO8Apn/V5jJT/W9YSQoaPY1Xpys+ka4e/LA0ONVNNE+8dQbvsx23OIOcZCoZaX62TRCj+sMUJ8pxjQUqEu8QOAkw87ZFkjBdGfKuCKovTpo89ziOs3z9ccZ4cbzAu";
     // Constants to keep measurements: one to convert inches to millimeters, one to keep track of field width, and one to keep track of target height
     private static final float mmPerInch = 25.4f;
-    private static final float FIELDWIDTH = (12*6) * mmPerInch;
-    private static final float TARGETHEIGHT = 6*mmPerInch;
+    private static final float FIELDWIDTH = (12 * 6) * mmPerInch;
+    private static final float TARGETHEIGHT = 6 * mmPerInch;
     // VuforiaLoclizer allows us to call and use Vuforia methods and classes
     VuforiaLocalizer vuforia;
     // Initializes the camera direction
@@ -47,7 +47,7 @@ public class Vision{
         super();
     }
 
-    private void setUpVuforia(HardwareMap hardwareMap){
+    private void setUpVuforia(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -98,7 +98,7 @@ public class Vision{
          */
         OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
                 .translation(-FIELDWIDTH, 0, TARGETHEIGHT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90));
         frontCraters.setLocation(frontCratersLocationOnField);
 
         /**
@@ -113,17 +113,16 @@ public class Vision{
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
         backSpace.setLocation(backSpaceLocationOnField);
 
-        setUpPhoneMatrix(0,0,0);
+        setUpPhoneMatrix(0, 0, 0);
 
         /**  Let all the trackable listeners know where the phone is.  */
-        for (VuforiaTrackable trackable : allTrackables)
-        {
-            ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocation, parameters.cameraDirection);
+        for (VuforiaTrackable trackable : allTrackables) {
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(phoneLocation, parameters.cameraDirection);
         }
 
     }
 
-    private void setUpVuforiaTrackables(String compName){
+    private void setUpVuforiaTrackables(String compName) {
         allTargets = this.vuforia.loadTrackablesFromAsset(compName);
 
         // Gathers together all the trackable objects in one easily-iterable collection
@@ -131,15 +130,15 @@ public class Vision{
         allTrackables.addAll(allTargets);
     }
 
-    private void setUpPhoneMatrix(int forwardDisplacement, int leftDisplacement, int verticalDisplacement){
+    private void setUpPhoneMatrix(int forwardDisplacement, int leftDisplacement, int verticalDisplacement) {
         phoneLocation = OpenGLMatrix
                 .translation(forwardDisplacement, leftDisplacement, verticalDisplacement)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
                         cameraDirection == FRONT ? 90 : -90, 0, 0));
     }
 
-    private void nameTrackables(String[] names){
-        if (names.length != allTrackables.size()){
+    private void nameTrackables(String[] names) {
+        if (names.length != allTrackables.size()) {
             System.out.println("Number of names does not  match number of vision targets");
         } else {
             for (int i = 0; i < names.length; i++) {
@@ -159,20 +158,20 @@ public class Vision{
 
     public void loop() {
         targetVisible = false;
-        for (VuforiaTrackable trackable: allTrackables){
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()){
+        for (VuforiaTrackable trackable : allTrackables) {
+            if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                 System.out.println("Visible Target: " + trackable.getName());
                 targetVisible = true;
 
-                OpenGLMatrix robotLocationTransform =  ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform !=null){
+                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
+                if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
                 break;
             }
         }
 
-        if (targetVisible){
+        if (targetVisible) {
             VectorF translation = lastLocation.getTranslation();
             robotPosition = translation;
             System.out.printf("Pos (in)", "(X,Y,Z) = %.1f, %.1f, %.1f",
@@ -181,15 +180,20 @@ public class Vision{
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             robotRotation = rotation;
             System.out.printf("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-        }
-        else {
+        } else {
             System.out.println("No Visible Target");
         }
     }
 
-    public double getRobotAngle() { return robotRotation.firstAngle; }
+    public double getRobotAngle() {
+        return robotRotation.firstAngle;
+    }
 
-    public double getRobotX() { return robotPosition.get(0); }
+    public double getRobotX() {
+        return robotPosition.get(0);
+    }
 
-    public double getRobotY() { return robotPosition.get(1); }
+    public double getRobotY() {
+        return robotPosition.get(1);
+    }
 }
