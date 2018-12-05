@@ -11,7 +11,7 @@ public class TeleDrive {
         drive = d;
         controller = c;
     }
-    public void Update(){
+    public void update(){
         double LeftJoyStickVal = controller.left_stick_y;
         double RightJoyStickVal = controller.right_stick_x;
         double powerLeft = LeftJoyStickVal;

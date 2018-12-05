@@ -6,20 +6,30 @@ import org.firstinspires.ftc.teamcode.subsystems.Arm;
 
 public class TeleArm {
     private Arm arm;
-    private boolean armUp;
     private Gamepad controller;
+    private int upDog;
 
-    public TeleArm(Arm arm, Gamepad c){
+    public TeleArm(Arm arm, Gamepad controller){
         this.arm = arm;
-        armUp = false;
-        controller = c;
+        this.controller = controller;
     }
 
     public void update(){
-        arm.setArm(armUp);
-        if (controller.b){
-            armUp = !armUp;
+        double power=0;
+        if (controller.a){
+            upDog = Arm.BOTTOM;
+            power=.25;
+        }else if(controller.b){
+            upDog = Arm.MIDDLE;
+            power=.25;
+        }else if(controller.y){
+            upDog = Arm.TOP;
+            power=1;
+        }else if(controller.x){
+            upDog = Arm.REST;
+            power=.25;
         }
+        arm.setArm(upDog,power);
         arm.update();
     }
 }

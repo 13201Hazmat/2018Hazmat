@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -35,7 +34,7 @@ public class TeleOpMode extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            teleDrive.Update();
+            teleDrive.update();
             teleIntake.update();
             teleArm.update();
         }
