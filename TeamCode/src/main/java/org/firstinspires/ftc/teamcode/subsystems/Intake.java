@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
-public class Intake{
+public class Intake {
     private DcMotor intakeMotor;
     private Servo intakeServo;
 
@@ -19,9 +19,9 @@ public class Intake{
     public void setIntakePosition(boolean upDog, boolean downDog) {
         double uncertainServoPosition = 0.0;
         if (upDog) {
-            intakeServo.setPosition(intakeServo.getPosition()+.01);
-        } else if(downDog){
-            intakeServo.setPosition(intakeServo.getPosition()-.01);
+            intakeServo.setPosition(intakeServo.getPosition() + .1);
+        } else if (downDog) {
+            intakeServo.setPosition(intakeServo.getPosition() - .1);
         }
     }
 
