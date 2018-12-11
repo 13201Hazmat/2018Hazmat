@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
@@ -22,6 +23,7 @@ public class TeleOpMode extends LinearOpMode {
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
         DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         Servo intakeServo = hardwareMap.servo.get("intake_servo");
+        TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
 
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         TeleDrive teleDrive = new TeleDrive(drive, gamepad1);
@@ -29,7 +31,7 @@ public class TeleOpMode extends LinearOpMode {
         Intake intake = new Intake(intakeMotor, intakeServo);
         TeleIntake teleIntake = new TeleIntake(intake, gamepad1);
 
-        Arm arm = new Arm(armMotor);
+        Arm arm = new Arm(armMotor, sensor);
         TeleArm teleArm = new TeleArm(arm, gamepad1);
 
         waitForStart();
