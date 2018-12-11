@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.teleOp.TeleIntake;
 
 @TeleOp(name="TeleOpMode", group="Teleop")
 public class TeleOpMode extends LinearOpMode {
-    public void runOpMode () {
+    public void runOpMode() {
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");

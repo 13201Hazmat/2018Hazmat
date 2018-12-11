@@ -7,7 +7,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Drive;
 public class TeleDrive {
     private Drive drive;
     private Gamepad controller;
-    public TeleDrive(Drive d, Gamepad c){
+
+    public TeleDrive(Drive d, Gamepad c) {
         drive = d;
         controller = c;
     }
