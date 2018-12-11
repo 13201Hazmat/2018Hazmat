@@ -18,16 +18,16 @@ public class TeleArm {
         double power=0;
         if (controller.a){
             upDog = Arm.BOTTOM;
-            power=.25;
+            power=.1;
         }else if(controller.b){
             upDog = Arm.MIDDLE;
-            power=.25;
+            power=.1;
         }else if(controller.y){
             upDog = Arm.TOP;
-            power=1;
+            power=.25;
         }else if(controller.x){
             upDog = Arm.REST;
-            power=.25;
+            power=.1;
         }
         arm.setArm(upDog,power);
         arm.update();
