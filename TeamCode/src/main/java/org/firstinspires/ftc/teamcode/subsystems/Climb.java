@@ -4,17 +4,30 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Climb {
     private DcMotor motor;
-    private boolean direction = false;
+    private int topEncoder = 5000;
+    private int bottomEncoder = 0;
 
     public Climb(DcMotor motor) {
         this.motor = motor;
     }
-    public void setClimb() {
+
+    public boolean setClimb(boolean direction) {
         if (direction == false) {
-            motor.setPower(-0.5);
-        }
-        if (direction == true) {
-            motor.setPower(0.5);
+            if (motor.getCurrentPosition() < bottomEncoder) {
+                motor.setPower(-.5);
+                return false;
+            } else {
+                motor.setPower(0);
+                return true;
+            }
+        } else {
+            if (motor.getCurrentPosition() > topEncoder) {
+                motor.setPower(.5);
+                return false;
+            } else {
+                motor.setPower(0);
+                return true;
+            }
         }
     }
 }
