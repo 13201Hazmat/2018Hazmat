@@ -10,18 +10,22 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Intake {
     private DcMotor intakeMotor;
     private Servo intakeServo;
+    private Servo intakeServo2;
 
-    public Intake(DcMotor motor, Servo servo) {
+    public Intake(DcMotor motor, Servo servo, Servo servo2) {
         intakeMotor = motor;
         intakeServo = servo;
+        intakeServo2 = servo2;
     }
 
     public void setIntakePosition(boolean upDog, boolean downDog) {
         double uncertainServoPosition = 0.0;
         if (upDog) {
             intakeServo.setPosition(intakeServo.getPosition() + .1);
+            intakeServo2.setPosition(intakeServo2.getPosition() - .1);
         } else if (downDog) {
             intakeServo.setPosition(intakeServo.getPosition() - .1);
+            intakeServo2.setPosition((intakeServo2.getPosition() + .1));
         }
     }
 
