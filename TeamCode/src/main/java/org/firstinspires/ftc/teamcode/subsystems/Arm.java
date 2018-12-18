@@ -21,9 +21,10 @@ public class Arm {
         armMotor.setPower(.5);
         armMotor.setTargetPosition(BOTTOM);
         this.sensor = sensor;
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public int armTest(){
+    public int armTest() {
         armMotor.setPower(.0);
         return armMotor.getCurrentPosition();
     }
@@ -34,12 +35,14 @@ public class Arm {
     }
 
     public void update() {
-        if (sensor.isPressed()){
+        if (sensor.isPressed()) {
             armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         armMotor.setPower(power);
         armMotor.setTargetPosition(upDog);
+        if (Math.abs(armMotor.getCurrentPosition() - armMotor.getTargetPosition()) < 10) {
+            armMotor.setPower(0);
+        }
     }
-
 }
