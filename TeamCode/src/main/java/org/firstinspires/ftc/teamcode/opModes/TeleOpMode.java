@@ -22,11 +22,11 @@ public class TeleOpMode extends LinearOpMode {
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
         DcMotor BackRightMotor = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
-        //DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
+        DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         Servo intakeServo = hardwareMap.servo.get("right_intake_servo");
         Servo intakeServo2 = hardwareMap.servo.get("left_intake_servo");
-        //TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
-        //DcMotor climber = hardwareMap.dcMotor.get("lift_motor");
+        TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
+        DcMotor climber = hardwareMap.dcMotor.get("lift_motor");
 
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         TeleDrive teleDrive = new TeleDrive(drive, gamepad1);
@@ -35,16 +35,16 @@ public class TeleOpMode extends LinearOpMode {
         Intake intake = new Intake(intakeMotor, intakeServo, intakeServo2);
         TeleIntake teleIntake = new TeleIntake(intake, gamepad1);
 
-        //Arm arm = new Arm(armMotor, sensor);
-        //TeleArm teleArm = new TeleArm(arm, gamepad1);
+        Arm arm = new Arm(armMotor, sensor);
+        TeleArm teleArm = new TeleArm(arm, gamepad1);
 
-        //Climb climb = new Climb(climber);
+        Climb climb = new Climb(climber);
 
         waitForStart();
         while (opModeIsActive()) {
             teleDrive.update();
             teleIntake.update();
-            //teleArm.update();
+            teleArm.update();
         }
     }
 }

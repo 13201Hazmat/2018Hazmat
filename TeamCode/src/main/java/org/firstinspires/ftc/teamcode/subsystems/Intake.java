@@ -18,14 +18,17 @@ public class Intake {
         intakeServo2 = servo2;
     }
 
-    public void setIntakePosition(boolean upDog, boolean downDog) {
-        double uncertainServoPosition = 0.0;
+    public void setIntakePosition(boolean upDog) {
         if (upDog) {
-            intakeServo.setPosition(intakeServo.getPosition() + .1);
-            intakeServo2.setPosition(intakeServo2.getPosition() - .1);
-        } else if (downDog) {
-            intakeServo.setPosition(intakeServo.getPosition() - .1);
-            intakeServo2.setPosition((intakeServo2.getPosition() + .1));
+            if (intakeServo.getPosition() < 1 && intakeServo2.getPosition() > -1) {
+                intakeServo.setPosition(intakeServo.getPosition() + .1);
+                intakeServo2.setPosition(intakeServo2.getPosition() - .1);
+            }
+        } else {
+            if (intakeServo.getPosition() > -1 && intakeServo2.getPosition() < 1) {
+                intakeServo.setPosition(intakeServo.getPosition() - .1);
+                intakeServo2.setPosition((intakeServo2.getPosition() + .1));
+            }
         }
     }
 
