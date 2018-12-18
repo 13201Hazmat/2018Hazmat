@@ -4,20 +4,18 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
+import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.teleOp.TeleDrive;
 import org.firstinspires.ftc.teamcode.auto.ICommand;
 import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 
-@Autonomous
-
+@Autonomous(name="Climb and Drive")
 public class AutoOpMode extends OpMode {
     private Drive drive;
-    private TeleDrive teleDrive;
-    private Intake intake;
-    private DcMotor intakeR;
-    private DcMotor intakeL;
+    private Climb climber;
     private ICommand[] commands = new ICommand[1];
     private int indexCommand = 0;
 
@@ -27,13 +25,15 @@ public class AutoOpMode extends OpMode {
         DcMotor br = hardwareMap.dcMotor.get("fr");
         DcMotor fr = hardwareMap.dcMotor.get("fr");
 
-        /* intakeR = hardwareMap.dcMotor.get("intakeR");
-        intakeL = hardwareMap.dcMotor.get("intakeL"); */
+        DcMotor climbMotor = hardwareMap.dcMotor.get("climb");
 
         drive = new Drive(fl, bl, br, fr);
-        DriveCommand temp = new DriveCommand(drive, 1000, 1);
-        commands[0] = temp;
-        // intake = new Intake(drive, gamepad1, intakeR, intakeL);
+        climber = new Climb(climbMotor);
+
+        //ClimbCommand climbCommand = new ClimbCommand(climber, true);
+        DriveCommand driveCommand = new DriveCommand(drive, 1000, 1);
+        //commands[0] = climbCommand;
+        commands[1] = driveCommand;
     }
 
     public void loop() {
