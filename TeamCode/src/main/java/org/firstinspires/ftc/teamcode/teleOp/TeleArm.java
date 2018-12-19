@@ -16,6 +16,7 @@ public class TeleArm {
 
     public void update() {
         double power = 0;
+
         if (controller.a) {
             direction = Arm.BOTTOM;
             power = .2;

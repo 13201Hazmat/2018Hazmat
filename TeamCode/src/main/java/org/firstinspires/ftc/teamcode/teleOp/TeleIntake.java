@@ -15,8 +15,14 @@ public class TeleIntake {
 
     public void update() {
         boolean suck = controller.right_trigger > 0.5;
+        boolean spit = controller.left_trigger > 0.5;
         if (suck) {
             intake.setIntakeSpeed(1);
+        } else {
+            intake.stopAtAngle(30.0);
+        }
+        if (spit) {
+            intake.setIntakeSpeed(-1);
         } else {
             intake.stopAtAngle(30.0);
         }

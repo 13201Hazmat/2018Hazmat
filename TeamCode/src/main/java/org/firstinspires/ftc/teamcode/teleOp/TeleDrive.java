@@ -12,14 +12,16 @@ public class TeleDrive {
         drive = d;
         controller = c;
     }
-    public void update(){
+
+    public void update() {
+
         double LeftJoyStickVal = controller.left_stick_y;
         double RightJoyStickVal = controller.right_stick_x;
         double powerLeft = LeftJoyStickVal;
         double powerRight = LeftJoyStickVal;
         powerLeft += RightJoyStickVal;
         powerRight -= RightJoyStickVal;
-        drive.SetLeftMotors(-powerLeft);
-        drive.SetRightMotors(powerRight);
+        drive.SetLeftMotors(powerLeft);
+        drive.SetRightMotors(-powerRight);
     }
 }

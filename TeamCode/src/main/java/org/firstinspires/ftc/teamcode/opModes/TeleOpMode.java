@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.teleOp.TeleArm;
+import org.firstinspires.ftc.teamcode.teleOp.TeleClimb;
 import org.firstinspires.ftc.teamcode.teleOp.TeleDrive;
 import org.firstinspires.ftc.teamcode.teleOp.TeleIntake;
 
@@ -39,12 +40,14 @@ public class TeleOpMode extends LinearOpMode {
         TeleArm teleArm = new TeleArm(arm, gamepad1);
 
         Climb climb = new Climb(climber);
+        TeleClimb teleClimb = new TeleClimb(climb, gamepad1);
 
         waitForStart();
         while (opModeIsActive()) {
             teleDrive.update();
             teleIntake.update();
             teleArm.update();
+            teleClimb.update();
         }
     }
 }
