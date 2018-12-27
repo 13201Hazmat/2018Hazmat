@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.teleOp.TeleIntake;
 @TeleOp(name = "TeleOpMode", group = "Teleop")
 public class TeleOpMode extends LinearOpMode {
     public void runOpMode() {
+
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -48,6 +50,9 @@ public class TeleOpMode extends LinearOpMode {
             teleIntake.update();
             teleArm.update();
             //teleClimb.update();
+            telemetry.addData("servo 1", intakeServo.getPosition());
+            telemetry.addData("servo 2", intakeServo2.getPosition());
+            telemetry.update();
         }
     }
 }

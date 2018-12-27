@@ -20,15 +20,15 @@ public class Intake {
 
     public void setIntakePosition(boolean upDog) {
         if (upDog) {
-            if (intakeServo.getPosition() < 1 && intakeServo2.getPosition() > -1) {
+            //if (intakeServo.getPosition() < 1 && intakeServo2.getPosition() > 0) {
                 intakeServo.setPosition(intakeServo.getPosition() + .1);
                 intakeServo2.setPosition(intakeServo2.getPosition() - .1);
-            }
+            //}
         } else {
-            if (intakeServo.getPosition() > -1 && intakeServo2.getPosition() < 1) {
+           // if (intakeServo.getPosition() > 0 && intakeServo2.getPosition() < 1) {
                 intakeServo.setPosition(intakeServo.getPosition() - .1);
                 intakeServo2.setPosition((intakeServo2.getPosition() + .1));
-            }
+            //}
         }
     }
 
