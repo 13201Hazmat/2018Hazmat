@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import android.hardware.camera2.CameraManager;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -11,7 +9,7 @@ public class Arm {
     public static final int MIDDLE = -400;
     public static final int TOP = -610;
     private DcMotor armMotor;
-    private int upDog;
+    private int setPosition;
     private double power;
     private TouchSensor sensor;
 
@@ -30,7 +28,7 @@ public class Arm {
     }
 
     public void setArm(int height, double power) {
-        upDog = height;
+        setPosition = height;
         this.power = power;
     }
 
@@ -40,7 +38,7 @@ public class Arm {
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         armMotor.setPower(power);
-        armMotor.setTargetPosition(upDog);
+        armMotor.setTargetPosition(setPosition);
         if (Math.abs(armMotor.getCurrentPosition() - armMotor.getTargetPosition()) < 10) {
             armMotor.setPower(0);
         }
