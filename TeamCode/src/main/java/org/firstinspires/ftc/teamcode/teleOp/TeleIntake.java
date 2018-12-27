@@ -27,9 +27,9 @@ public class TeleIntake {
             intake.stopAtAngle(30.0);
         }
         if (controller.dpad_down) {
-            intake.setIntakePosition(false);
-        } else if (controller.dpad_up) {
             intake.setIntakePosition(true);
+        } else if (controller.dpad_up) {
+            intake.setIntakePosition(false);
         }
     }
 
