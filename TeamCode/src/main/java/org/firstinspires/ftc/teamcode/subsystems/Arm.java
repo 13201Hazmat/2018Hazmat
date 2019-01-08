@@ -7,7 +7,7 @@ public class Arm {
     public static final int REST = 0;
     public static final int BOTTOM = -100;
     public static final int MIDDLE = -400;
-    public static final int TOP = -610;
+    public static final int TOP = -500;
     private DcMotor armMotor;
     private int setPosition;
     private double power;
@@ -16,8 +16,8 @@ public class Arm {
     public Arm(DcMotor motor, TouchSensor sensor) {
         armMotor = motor;
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setPower(.5);
-        armMotor.setTargetPosition(BOTTOM);
+        armMotor.setTargetPosition(REST);
+        resetArm();
         this.sensor = sensor;
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }

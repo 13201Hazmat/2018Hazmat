@@ -14,6 +14,6 @@ public class ClimbCommand implements ICommand {
 
     @Override
     public boolean runCommand() {
-        return climb.setClimb(direction);
+        return climb.setClimb(-1);
     }
 }
