@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class Arm {
     public static final int REST = 0;
     public static final int BOTTOM = -100;
-    public static final int MIDDLE = -400;
+    public static final int MIDDLE = -300;
     public static final int TOP = -500;
     private DcMotor armMotor;
     private int setPosition;
@@ -17,8 +17,8 @@ public class Arm {
         armMotor = motor;
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setTargetPosition(REST);
-        resetArm();
         this.sensor = sensor;
+        resetArm();
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
