@@ -52,6 +52,7 @@ public class TeleOpMode extends LinearOpMode {
             //teleClimb.update();
             telemetry.addData("servo 1", intakeServo.getPosition());
             telemetry.addData("servo 2", intakeServo2.getPosition());
+            telemetry.addData("touch sensor", sensor.isPressed());
             telemetry.update();
         }
     }

@@ -32,11 +32,20 @@ public class Arm {
         this.power = power;
     }
 
+    public void resetArm(){
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(!sensor.isPressed()){
+            armMotor.setPower(.1);
+        }
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
     public void update() {
-        if (sensor.isPressed()) {
+        /*if (sensor.isPressed()) {
             armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
+        }*/
         armMotor.setPower(power);
         armMotor.setTargetPosition(setPosition);
         if (Math.abs(armMotor.getCurrentPosition() - armMotor.getTargetPosition()) < 10) {

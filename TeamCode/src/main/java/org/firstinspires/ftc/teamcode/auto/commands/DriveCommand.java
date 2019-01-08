@@ -19,7 +19,7 @@ public class DriveCommand implements ICommand {
     public boolean runCommand() {
         if (currentDistance < distance) {
             drive.SetLeftMotors(power);
-            drive.SetRightMotors(power);
+            drive.SetRightMotors(-power);
             int LeftDistance = drive.GetLeftEncoders();
             int RightDistance = drive.GetRightEncoders();
             currentDistance = Math.abs((LeftDistance + RightDistance) / 2);

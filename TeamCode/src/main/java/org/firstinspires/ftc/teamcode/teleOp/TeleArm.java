@@ -29,6 +29,10 @@ public class TeleArm {
         } else if (controller.x) {
             direction = Arm.TOP;
             power = .2;
+        }else if (controller.start){
+            arm.resetArm();
+            direction = 0;
+            power = 0;
         }
         arm.setArm(direction, power);
         arm.update();
