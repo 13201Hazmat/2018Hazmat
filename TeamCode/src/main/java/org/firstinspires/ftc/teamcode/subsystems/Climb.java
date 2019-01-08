@@ -14,7 +14,7 @@ public class Climb {
     public boolean setClimb(boolean direction) {
         if (direction == false) {
             if (motor.getCurrentPosition() < bottomEncoder) {
-                motor.setPower(-.5);
+                motor.setPower(-1);
                 return false;
             } else {
                 motor.setPower(0);
@@ -22,7 +22,7 @@ public class Climb {
             }
         } else {
             if (motor.getCurrentPosition() > topEncoder) {
-                motor.setPower(.5);
+                motor.setPower(1);
                 return false;
             } else {
                 motor.setPower(0);
