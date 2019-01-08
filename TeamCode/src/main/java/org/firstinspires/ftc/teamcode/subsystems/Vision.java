@@ -42,6 +42,7 @@ public class Vision {
     private OpenGLMatrix phoneLocation;
     private VectorF robotPosition;
     private Orientation robotRotation;
+    private String visibleTarget;
 
     public Vision() {
         super();
@@ -156,11 +157,11 @@ public class Vision {
 
     }
 
-    public void loop() {
+    public void scan() {
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
-                System.out.println("Visible Target: " + trackable.getName());
+                visibleTarget = trackable.getName();
                 targetVisible = true;
 
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
@@ -186,7 +187,7 @@ public class Vision {
     }
 
     public double getRobotAngle() {
-        return robotRotation.firstAngle;
+        return robotRotation.thirdAngle;
     }
 
     public double getRobotX() {
@@ -196,4 +197,6 @@ public class Vision {
     public double getRobotY() {
         return robotPosition.get(1);
     }
+
+    public String getVisibleTarget() { return visibleTarget; }
 }

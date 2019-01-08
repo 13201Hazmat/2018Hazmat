@@ -26,7 +26,7 @@ public class VisionAutoTest extends LinearOpMode {
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
 
         while (opModeIsActive()) {
-            vision.loop();
+            vision.scan();
 
             if (Math.abs(vision.getRobotAngle()) > 2) {
                 TurnCommand turn = new TurnCommand(drive, 0.7, vision.getRobotAngle(), gyro);
