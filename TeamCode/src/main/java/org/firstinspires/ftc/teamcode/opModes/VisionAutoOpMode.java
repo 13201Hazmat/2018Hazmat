@@ -23,6 +23,7 @@ public class VisionAutoOpMode extends LinearOpMode {
         Vision vision = new Vision();
         vision.init(hardwareMap);
 
+        //Motors and stuff
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -35,28 +36,33 @@ public class VisionAutoOpMode extends LinearOpMode {
         DcMotor climber = hardwareMap.dcMotor.get("lift_motor");
         GyroSensor gyro = hardwareMap.gyroSensor.get("gyro");
 
+        //Subsystems
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Intake intake = new Intake(intakeMotor, intakeServo, intakeServo2);
         Climb climb = new Climb(climber);
 
+        //Get down from the lander
         ClimbCommand climbCommand = new ClimbCommand(climb, true);
         climbCommand.runCommand();
 
+        //Associating orientation angles to the targets on the field
         HashMap<String, Integer> targetToAngle = new HashMap<String, Integer>();
         targetToAngle.put("Front-Craters", 0);
         targetToAngle.put("Red-Footprint", 90);
         targetToAngle.put("Back-Space", 180);
         targetToAngle.put("Blue-Rover", 270);
 
+        //Find the target angle using the visible target
         vision.scan();
         String target = vision.getVisibleTarget();
         double targetAngle = targetToAngle.get(target);
 
-
+        //Turn to the correct angle
         double angle = vision.getRobotAngle();
         TurnCommand turnCommand = new TurnCommand(drive, 0.7, targetAngle - angle, gyro);
         turnCommand.runCommand();
 
+        //Run one of two paths now that the robot is aligned
         if (target.equals("Blue-Rover") || target.equals("Red-Footprint")) {
             runPath1();
         } else {
