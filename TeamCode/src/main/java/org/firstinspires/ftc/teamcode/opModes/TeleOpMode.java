@@ -39,10 +39,10 @@ public class TeleOpMode extends LinearOpMode {
         TeleIntake teleIntake = new TeleIntake(intake, gamepad1);
 
         Arm arm = new Arm(armMotor, sensor);
-        TeleArm teleArm = new TeleArm(arm, gamepad1);
+        TeleArm teleArm = new TeleArm(arm, gamepad2);
 
         //Climb climb = new Climb(climber);
-        //TeleClimb teleClimb = new TeleClimb(climb, gamepad1);
+        //TeleClimb teleClimb = new TeleClimb(climb, gamepad2);
 
         waitForStart();
         while (opModeIsActive()) {
