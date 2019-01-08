@@ -11,23 +11,13 @@ public class Climb {
         this.motor = motor;
     }
 
-    public boolean setClimb(boolean direction) {
-        if (direction == false) {
-            if (motor.getCurrentPosition() < bottomEncoder) {
-                motor.setPower(-1);
-                return false;
-            } else {
-                motor.setPower(0);
-                return true;
-            }
-        } else {
-            if (motor.getCurrentPosition() > topEncoder) {
-                motor.setPower(1);
+    public boolean setClimb(double power) {
+            if (motor.getCurrentPosition() < bottomEncoder && motor.getCurrentPosition() > topEncoder) {
+                motor.setPower(power);
                 return false;
             } else {
                 motor.setPower(0);
                 return true;
             }
         }
-    }
 }

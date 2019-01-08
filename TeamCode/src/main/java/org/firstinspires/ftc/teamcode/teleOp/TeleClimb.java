@@ -8,16 +8,23 @@ public class TeleClimb {
     private Climb climb;
     private Gamepad controller;
     private boolean direction;
+    private double power;
 
     public TeleClimb(Climb climber, Gamepad c) {
         climb = climber;
         controller = c;
+        direction = false;
+        power = 0;
     }
 
     public void update() {
         if (controller.left_bumper) {
-            direction = true;
+            power = 1;
+        } else if (controller.right_bumper){
+            power = -1;
+        } else if (controller.back){
+            power = 0;
         }
-        climb.setClimb(direction);
+        climb.setClimb(power);
     }
 }
