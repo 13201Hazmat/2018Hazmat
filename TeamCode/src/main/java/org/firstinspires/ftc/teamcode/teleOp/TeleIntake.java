@@ -18,11 +18,21 @@ public class TeleIntake {
         boolean spit = controller.left_trigger > 0.5;
         if (suck) {
             intake.setIntakeSpeed(1);
+            if (controller.dpad_down) {
+                intake.setIntakePosition(true);
+            } else if (controller.dpad_up) {
+                intake.setIntakePosition(false);
+            }
         } else {
             intake.stopAtAngle(30.0);
         }
         if (spit) {
             intake.setIntakeSpeed(-1);
+            if (controller.dpad_down) {
+                intake.setIntakePosition(true);
+            } else if (controller.dpad_up) {
+                intake.setIntakePosition(false);
+            }
         } else {
             intake.stopAtAngle(30.0);
         }
