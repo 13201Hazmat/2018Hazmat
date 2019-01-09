@@ -7,7 +7,7 @@ public class Arm {
     public static final int REST = 0;
     public static final int BOTTOM = -100;
     public static final int MIDDLE = -300;
-    public static final int TOP = -500;
+    public static final int TOP = -550;
     private DcMotor armMotor;
     private int setPosition;
     private double power;
@@ -35,11 +35,11 @@ public class Arm {
     public void resetArm(){
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(!sensor.isPressed()){
-            armMotor.setPower(.1);
-        }
+        armMotor.setPower(.1);
+    }
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
+}
 
     public void update() {
         /*if (sensor.isPressed()) {

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 public class Intake {
-    public DcMotor intakeMotor;
+    private DcMotor intakeMotor;
     private Servo intakeServo;
     private Servo intakeServo2;
 

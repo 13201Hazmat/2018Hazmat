@@ -36,20 +36,19 @@ public class TeleOpMode extends LinearOpMode {
 
 
         Intake intake = new Intake(intakeMotor, intakeServo, intakeServo2);
-        TeleIntake teleIntake = new TeleIntake(intake, gamepad1);
+        TeleIntake teleIntake = new TeleIntake(intake, gamepad2);
 
         Arm arm = new Arm(armMotor, sensor);
         TeleArm teleArm = new TeleArm(arm, gamepad2);
 
         //Climb climb = new Climb(climber);
-        //TeleClimb teleClimb = new TeleClimb(climb, gamepad2);
-
+        //TeleClimb teleClimb = new TeleClimb(climb, gamepad1);
+        telemetry.addData("Init","v:1.0");
         waitForStart();
         while (opModeIsActive()) {
             teleDrive.update();
             teleIntake.update();
             teleArm.update();
-            //teleClimb.update();
             telemetry.addData("servo 1", intakeServo.getPosition());
             telemetry.addData("servo 2", intakeServo2.getPosition());
             telemetry.addData("touch sensor", sensor.isPressed());
