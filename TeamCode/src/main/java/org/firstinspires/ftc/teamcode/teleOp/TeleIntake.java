@@ -32,21 +32,21 @@ public class TeleIntake {
         } else if (controller.dpad_up) {
             intake.setIntakePosition(false);
         }
-        if (controller.b ){
+        if (controller.b) {
             time = System.currentTimeMillis();
 
-        } else if (controller.a){
+        } else if (controller.a) {
             long time = System.currentTimeMillis();
-            while(System.currentTimeMillis()-time<300){
+            while (System.currentTimeMillis() - time < 300) {
                 intake.setIntakeSpeed(-1);
             }
 
         }
-        if(time!=0&&System.currentTimeMillis()-time<300) {
+        if (time != 0 && System.currentTimeMillis() - time < 300) {
             intake.setIntakeSpeed(1);
-        }else {
+        } else {
             intake.setIntakeSpeed(0);
-            time=0;
+            time = 0;
         }
     }
 
