@@ -17,18 +17,22 @@ public class TeleArm {
     public void update() {
         double power = .2;
 
-        if (controller.a) {
+        if (controller.a)  { //slow down
             direction = Arm.BOTTOM;
             power = .2;
-        } else if (controller.b) {
+        } else if (controller.b) { //slow up
             direction = Arm.MIDDLE;
+            //direction = ARM.TOP
             power = .2;
-        } else if (controller.y) {
+        } else if (controller.y) { //fast up
             direction = Arm.TOP;
             power = .5;
-        } else if (controller.x) {
+            //power = 1;
+        } else if (controller.x) { //fast down
             direction = Arm.TOP;
             power = .2;
+            //direction = Arm.BOTTOM;
+            //power = 1;
         }else if (controller.start){
             arm.resetArm();
             direction = 0;
