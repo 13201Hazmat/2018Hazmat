@@ -35,6 +35,8 @@ public class TeleIntake {
         } else if (controller.dpad_up) {
             intake.setIntakePosition(false);
         }
+
+        /*
         if (controller.b) {
             time = System.currentTimeMillis();
             //count = intake.intakeMotor.getCurrentPosition();
@@ -57,8 +59,9 @@ public class TeleIntake {
         } else {
             intake.setIntakeSpeed(0);
             time = 0;
-        }
+        }*/
     }
+
 
 
 }

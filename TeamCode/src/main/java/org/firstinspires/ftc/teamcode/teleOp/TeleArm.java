@@ -29,13 +29,14 @@ public class TeleArm {
             power = .5;
             //power = 1;
         } else if (controller.x) { //fast down
-            direction = Arm.TOP;
-            power = .2;
+            direction = Arm.REST;
+            power = 0.2
+            ;
             //direction = Arm.BOTTOM;
             //power = 1;
         }else if (controller.start){
             arm.resetArm();
-            direction = 0;
+            direction = Arm.REST;
             power = 0;
         }
         arm.setArm(direction, power);
