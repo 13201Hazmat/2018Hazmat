@@ -20,16 +20,16 @@ public class Intake {
 
     public void setIntakePosition(boolean upDog) {
         if (upDog) {
-            if (intakeServo.getPosition() < .6 && intakeServo2.getPosition() > .4) {
+            //if (intakeServo.getPosition() < .6 && intakeServo2.getPosition() > .4) {
 
                 intakeServo.setPosition(intakeServo.getPosition() + .1);
                 intakeServo2.setPosition(intakeServo2.getPosition() - .1);
-            }
+           // }
         } else {
-           if (intakeServo.getPosition() > .4 && intakeServo2.getPosition() < .6) {
+          // if (intakeServo.getPosition() > .4 && intakeServo2.getPosition() < .6) {
                 intakeServo.setPosition(intakeServo.getPosition() - .1);
                 intakeServo2.setPosition((intakeServo2.getPosition() + .1));
-            }
+           // }
         }
     }
 
