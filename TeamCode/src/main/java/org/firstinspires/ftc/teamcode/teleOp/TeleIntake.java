@@ -36,9 +36,9 @@ public class TeleIntake {
             intake.setIntakePosition(false);
         }
         if (controller.x){
-            intake.setIntakeSpeed(1);
-        } else if (controller.a){
             intake.setIntakeSpeed(-1);
+        } else if (controller.a){
+            intake.setIntakeSpeed(1);
 
         }
 
