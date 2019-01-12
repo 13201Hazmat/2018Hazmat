@@ -12,6 +12,7 @@ public class Arm {
     private int setPosition;
     private double power;
     private TouchSensor sensor;
+    private boolean resetting;
 
     public Arm(DcMotor motor, TouchSensor sensor) {
         armMotor = motor;
@@ -32,24 +33,25 @@ public class Arm {
         this.power = power;
     }
 
-    public void resetArm(){
+    public void resetArm() {
+        resetting = true;
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while(!sensor.isPressed()){
-        armMotor.setPower(.1);
     }
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-}
 
     public void update() {
-        /*if (sensor.isPressed()) {
-            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }*/
-        armMotor.setPower(power);
-        armMotor.setTargetPosition(setPosition);
-        if (Math.abs(armMotor.getCurrentPosition() - armMotor.getTargetPosition()) < 10) {
-            armMotor.setPower(0);
+        if (resetting) {
+            armMotor.setPower(.1);
+            if (sensor.isPressed()) {
+                resetting = false;
+                armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+        } else {
+            armMotor.setPower(power);
+            armMotor.setTargetPosition(setPosition);
+            if (Math.abs(armMotor.getCurrentPosition() - armMotor.getTargetPosition()) < 10) {
+                armMotor.setPower(0);
+            }
         }
     }
 }
