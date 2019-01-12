@@ -43,7 +43,7 @@ public class TeleIntake {
 
         }*/
 
-        /*
+
         if (controller.b) {
             time = System.currentTimeMillis();
             //count = intake.intakeMotor.getCurrentPosition();
@@ -66,7 +66,7 @@ public class TeleIntake {
         } else {
             intake.setIntakeSpeed(0);
             time = 0;
-        }*/
+        }
     }
 
 
