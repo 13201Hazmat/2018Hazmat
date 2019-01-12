@@ -29,7 +29,7 @@ public class TeleOpMode extends LinearOpMode {
         Servo intakeServo = hardwareMap.servo.get("right_intake_servo");
         Servo intakeServo2 = hardwareMap.servo.get("left_intake_servo");
         TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
-        //DcMotor climber = hardwareMap.dcMotor.get("lift_motor");
+        DcMotor climber = hardwareMap.dcMotor.get("lift_motor");
 
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         TeleDrive teleDrive = new TeleDrive(drive, gamepad1);
@@ -41,8 +41,8 @@ public class TeleOpMode extends LinearOpMode {
         Arm arm = new Arm(armMotor, sensor);
         TeleArm teleArm = new TeleArm(arm, gamepad2);
 
-        //Climb climb = new Climb(climber);
-        //TeleClimb teleClimb = new TeleClimb(climb, gamepad1);
+        Climb climb = new Climb(climber);
+        TeleClimb teleClimb = new TeleClimb(climb, gamepad1);
         telemetry.addData("Init","v:1.0");
         waitForStart();
         while (opModeIsActive()) {
