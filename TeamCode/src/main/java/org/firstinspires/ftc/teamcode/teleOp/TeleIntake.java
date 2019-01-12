@@ -35,12 +35,13 @@ public class TeleIntake {
         } else if (controller.dpad_up) {
             intake.setIntakePosition(false);
         }
-        if (controller.x){
+        /*
+        if (controller.b){
             intake.setIntakeSpeed(-1);
         } else if (controller.a){
             intake.setIntakeSpeed(1);
 
-        }
+        }*/
 
         /*
         if (controller.b) {

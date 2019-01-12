@@ -36,7 +36,9 @@ public class AutoDrive extends OpMode {
 
     @Override
     public void loop() {
-        for (int x = 0; x < commands.size(); x++) {
+        for (int i = 0; i < commands.size(); i++) {
+            while(commands.get(i).runCommand()){
+            }
         }
     }
 }
