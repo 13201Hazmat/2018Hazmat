@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Climb {
     private DcMotor motor;
-    private int topEncoder = -25000;
-    private int bottomEncoder = -100;
+    private int topEncoder = -25000; //26000
+    private int bottomEncoder = -100; //11000
 
     public Climb(DcMotor motor) {
         this.motor = motor;
