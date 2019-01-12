@@ -29,8 +29,8 @@ public class VisionAutoTest extends LinearOpMode {
             vision.scan();
 
             if (Math.abs(vision.getRobotAngle()) > 2) {
-                TurnCommand turn = new TurnCommand(drive, 0.7, vision.getRobotAngle(), gyro);
-                turn.runCommand();
+                //TurnCommand turn = new TurnCommand(drive, 0.7, vision.getRobotAngle(), gyro);
+                //turn.runCommand();
             } else if (vision.getRobotX() > 0) {
                 DriveCommand driveCommand = new DriveCommand(drive, (int) vision.getRobotX(), 0.5);
             }

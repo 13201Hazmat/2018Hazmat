@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.auto.commands;
 
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.auto.ICommand;
 
@@ -9,28 +14,26 @@ public class TurnCommand implements ICommand {
     private Drive drive;
     private double power;
     private double angle;
-    private GyroSensor gyro;
+    private BNO055IMU imu;
 
-    public TurnCommand(Drive driveIn, double power, double angle, GyroSensor gyro) {
+    public TurnCommand(Drive driveIn, double power, double angle, BNO055IMU imu) {
         drive = driveIn;
         this.power = power;
         this.angle = angle;
-        this.gyro = gyro;
+        this.imu = imu;
     }
 
     @Override
     public boolean runCommand() {
-        double currentAngle = gyro.getRotationFraction();
-        currentAngle *= 360;
-        currentAngle %= 360;
+        Orientation location = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        float currentAngle = location.firstAngle;
         if (currentAngle < angle) {
-            if (angle < 180) {
-                drive.SetLeftMotors(-power);
-                drive.SetRightMotors(power);
-            } else if (angle > 180) {
-                drive.SetLeftMotors(power);
-                drive.SetRightMotors(-power);
-            }
+            drive.SetLeftMotors(power);
+            drive.SetRightMotors(-power);
+            return false;
+        } else if (currentAngle > angle) {
+            drive.SetLeftMotors(-power);
+            drive.SetRightMotors(power);
             return false;
         } else {
             drive.SetLeftMotors(0);

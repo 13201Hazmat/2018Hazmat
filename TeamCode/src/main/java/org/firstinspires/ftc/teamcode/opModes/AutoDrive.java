@@ -30,8 +30,8 @@ public class AutoDrive extends OpMode {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         Drive drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         commands = new ArrayList<ICommand>();
-        commands.add(new DriveCommand(drive, 10, 1));
-        //commands.add(new TurnCommand(drive, 1, 90, imu));
+        commands.add(new DriveCommand(drive, 70, 1));
+        commands.add(new TurnCommand(drive, 1, 135, imu));
     }
 
     @Override
