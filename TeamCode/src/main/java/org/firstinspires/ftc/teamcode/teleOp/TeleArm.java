@@ -20,7 +20,7 @@ public class TeleArm {
         if (controller.a)  { //slow down
             direction = Arm.BOTTOM;
             power = .2;
-        } else if (controller.b) { //slow up
+        } else if (controller.b) { //slow middle
             direction = Arm.MIDDLE;
             //direction = ARM.TOP
             power = .2;
@@ -28,9 +28,9 @@ public class TeleArm {
             direction = Arm.TOP;
             power = .5;
             //power = 1;
-        } else if (controller.x) { //fast down
-            direction = Arm.REST;
-            power = 0.2
+        } else if (controller.x) { //slow up
+            direction = Arm.REST; //Arm.TOP;
+            power = .2
             ;
             //direction = Arm.BOTTOM;
             //power = 1;
