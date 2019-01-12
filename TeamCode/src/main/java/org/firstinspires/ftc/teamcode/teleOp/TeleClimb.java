@@ -18,13 +18,19 @@ public class TeleClimb {
     }
 
     public void update() {
-        if (controller.left_bumper) {
-            power = 1;
-        } else if (controller.right_bumper){
-            power = -1;
-        } else if (controller.back){
-            power = 0;
+        if (controller.left_trigger > .5) {
+            climb.setPower(.5);
+        } else if (controller.right_trigger > .5) {
+            climb.setPower(-.5);
+        } else {
+            if (controller.left_bumper) {
+                power = 1;
+            } else if (controller.right_bumper) {
+                power = -1;
+            } else if (controller.back) {
+                power = 0;
+            }
+            climb.setClimb(power);
         }
-        climb.setClimb(power);
     }
 }
