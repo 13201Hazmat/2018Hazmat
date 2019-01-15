@@ -26,7 +26,11 @@ public class Climb {
             return true;
         }
     }
-
+    public void reset(){
+        setPower(0);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
     public void setPower(double power){
         motor.setPower(power);
     }
