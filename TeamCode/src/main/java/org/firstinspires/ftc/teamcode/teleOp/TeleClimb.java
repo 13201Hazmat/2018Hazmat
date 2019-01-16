@@ -19,10 +19,10 @@ public class TeleClimb {
 
     public void update() {
         if (controller.left_trigger > .5) {
-            climb.setPower(.5);
+            climb.setPower(1);
             power = 0;
         } else if (controller.right_trigger > .5) {
-            climb.setPower(-.5);
+            climb.setPower(-1);
             power = 0;
         } else {
             if (controller.left_bumper) {
