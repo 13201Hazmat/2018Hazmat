@@ -35,40 +35,18 @@ public class TeleIntake {
         } else if (controller.dpad_up) {
             intake.setIntakePosition(false);
         }
-        /*
-        if (controller.b){
+
+
+
+        if (controller.a) {
+            intake.setIntakeSpeed(1);
+        } else if (controller.start) {
             intake.setIntakeSpeed(-1);
-        } else if (controller.a){
-            intake.setIntakeSpeed(1);
-
-        }*/
-
-
-        if (controller.b) {
-            time = System.currentTimeMillis();
-            //count = intake.intakeMotor.getCurrentPosition();
-
-        } else if (controller.a) {
-            long time = System.currentTimeMillis();
-            //count = intake.intakeMotor.getCurrentPosition();
-            while (System.currentTimeMillis() - time < 300) {
-                //while (intake.intakeMotor.getCurrentPosition() - count < ___){
-                intake.setIntakeSpeed(-1);
-                if (controller.dpad_left){
-                    break;
-                }
-            }
-
-        }
-        if (time != 0 && System.currentTimeMillis() - time < 300) {
-            //if (count != 0 && intake.intakeMotor.getCurrentPosition() - count < ___){
-            intake.setIntakeSpeed(1);
         } else {
             intake.setIntakeSpeed(0);
             time = 0;
         }
     }
-
 
 
 }

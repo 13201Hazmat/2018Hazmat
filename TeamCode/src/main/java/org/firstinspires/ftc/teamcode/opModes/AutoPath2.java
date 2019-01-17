@@ -1,28 +1,27 @@
 package org.firstinspires.ftc.teamcode.opModes;
 
-import java.util.ArrayList;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import junit.runner.Version;
+
+import org.firstinspires.ftc.teamcode.auto.ICommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
+import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
-import org.firstinspires.ftc.teamcode.auto.ICommand;
-import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
+
+import java.util.ArrayList;
 
 @Autonomous
-public class AutoPath1 extends OpMode {
+public class AutoPath2 extends OpMode {
     private ArrayList<ICommand> commands;
     private int currentIndex;
     private Drive drive;
@@ -31,10 +30,11 @@ public class AutoPath1 extends OpMode {
     private boolean climbed;
     private ClimbCommand climbingCommand;
     private ArmCommand initArmCommand;
+    private String version;
 
     @Override
     public void init() {
-
+        version = "1.1.4";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -61,13 +61,15 @@ public class AutoPath1 extends OpMode {
         arm = new Arm(armMotor,sensor);
 
         commands = new ArrayList<ICommand>();
-        commands.add(new ClimbCommand(climber,true));
-        commands.add(new DriveCommand(drive, 5600, 1));
+        //commands.add(new ClimbCommand(climber,true));
+        commands.add(new DriveCommand(drive, 900, 1));
+        commands.add(new TurnCommand(drive, 1, -60,imu));
         commands.add(new ArmCommand(armMotor, false));
-        commands.add(new DriveCommand(drive, 10, -1));
-        commands.add(new DriveCommand(drive, 10, 1));
-        commands.add(new TurnCommand(drive, 1, 55, imu));
-        commands.add(new DriveCommand(drive, 8050, -1));
+        commands.add(new DriveCommand(drive, 4000, 1));
+        commands.add(new TurnCommand(drive, 1, -140, imu));
+        commands.add(new DriveCommand(drive, 5000, 1));
+        commands.add(new DriveCommand(drive, 7500, -1));
+
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex=0;
@@ -77,6 +79,7 @@ public class AutoPath1 extends OpMode {
         armMotor.setTargetPosition(-60);
         armMotor.setPower(.5);
         telemetry.addData("Status", "Init");
+        telemetry.addData(("Version"),version);
         telemetry.update();
     }
 
