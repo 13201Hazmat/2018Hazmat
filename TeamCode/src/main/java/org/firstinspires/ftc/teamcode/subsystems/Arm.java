@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class Arm {
     public static final int REST = 0;
-    public static final int BOTTOM = -155;
+    public static final int BOTTOM = -185;
     public static final int MIDDLE = -300;
-    public static final int TOP = -550;
+    public static final int TOP = -600;
     private DcMotor armMotor;
     private int setPosition;
     private double power;

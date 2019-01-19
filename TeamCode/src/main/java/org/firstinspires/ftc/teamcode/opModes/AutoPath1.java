@@ -58,20 +58,20 @@ public class AutoPath1 extends OpMode {
         drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Drive.reset(drive);
         climber = new Climb(climberMotor);
-        arm = new Arm(armMotor,sensor);
+        arm = new Arm(armMotor, sensor);
 
         commands = new ArrayList<ICommand>();
-        commands.add(new ClimbCommand(climber,true));
-        commands.add(new DriveCommand(drive, 5600, 1));
+        commands.add(new ClimbCommand(climber, true));
+        commands.add(new DriveCommand(drive, 5300, 1));
         commands.add(new ArmCommand(armMotor, false));
         commands.add(new DriveCommand(drive, 10, -1));
         commands.add(new DriveCommand(drive, 10, 1));
-        commands.add(new TurnCommand(drive, 1, 55, imu));
+        commands.add(new TurnCommand(drive, 1, 360 - 55, imu));
         commands.add(new DriveCommand(drive, 8050, -1));
 
         climbingCommand = new ClimbCommand(climber, false);
-        currentIndex=0;
-        climbed=false;
+        currentIndex = 0;
+        climbed = false;
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setTargetPosition(-60);
@@ -83,11 +83,11 @@ public class AutoPath1 extends OpMode {
     @Override
     public void loop() {
         arm.update();
-        telemetry.addData("Left Encoders: ",drive.GetLeftEncoders());
-        telemetry.addData("Right Encoders: ",drive.GetRightEncoders());
+        telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
+        telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.update();
-        if(currentIndex>0&&!climbed){
-            climbed=!climbingCommand.runCommand();
+        if (currentIndex > 0 && !climbed) {
+            climbed = !climbingCommand.runCommand();
         }
         if (currentIndex < commands.size()) {
             if (commands.get(currentIndex).runCommand()) {
