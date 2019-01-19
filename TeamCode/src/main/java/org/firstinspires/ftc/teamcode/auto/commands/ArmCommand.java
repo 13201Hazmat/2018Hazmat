@@ -18,7 +18,7 @@ public class ArmCommand implements ICommand {
     @Override
     public boolean runCommand() {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setTargetPosition(-60);
+        armMotor.setTargetPosition(0);
         armMotor.setPower(.5);
         return true;
     }

@@ -66,7 +66,7 @@ public class AutoPath1 extends OpMode {
         commands.add(new ArmCommand(armMotor, false));
         commands.add(new DriveCommand(drive, 10, -1));
         commands.add(new DriveCommand(drive, 10, 1));
-        commands.add(new TurnCommand(drive, 1, 360 - 55, imu));
+        commands.add(new TurnCommand(drive, 1, -47, imu));
         commands.add(new DriveCommand(drive, 8050, -1));
 
         climbingCommand = new ClimbCommand(climber, false);
