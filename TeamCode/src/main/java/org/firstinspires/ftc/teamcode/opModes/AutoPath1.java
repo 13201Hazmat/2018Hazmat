@@ -63,7 +63,7 @@ public class AutoPath1 extends OpMode {
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, 5300, 1));
-        commands.add(new ArmCommand(armMotor, false));
+        //commands.add(new ArmCommand(armMotor, false));
         commands.add(new DriveCommand(drive, 10, -1));
         commands.add(new DriveCommand(drive, 10, 1));
         commands.add(new TurnCommand(drive, 1, -47, imu));
@@ -72,10 +72,11 @@ public class AutoPath1 extends OpMode {
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         armMotor.setTargetPosition(-60);
-        armMotor.setPower(.5);
+        armMotor.setPower(.5);*/
         telemetry.addData("Status", "Init");
         telemetry.update();
     }

@@ -34,7 +34,7 @@ public class AutoPath2 extends OpMode {
 
     @Override
     public void init() {
-        version = "1.1.4";
+        version = "1.1.7";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -61,12 +61,12 @@ public class AutoPath2 extends OpMode {
         arm = new Arm(armMotor,sensor);
 
         commands = new ArrayList<ICommand>();
-        //commands.add(new ClimbCommand(climber,true));
+        commands.add(new ClimbCommand(climber,true));
         commands.add(new DriveCommand(drive, 900, 1));
-        commands.add(new TurnCommand(drive, 1, -60,imu));
+        commands.add(new TurnCommand(drive, 1, 65,imu));
         commands.add(new ArmCommand(armMotor, false));
-        commands.add(new DriveCommand(drive, 4000, 1));
-        commands.add(new TurnCommand(drive, 1, -140, imu));
+        commands.add(new DriveCommand(drive, 3300, 1));
+        commands.add(new TurnCommand(drive, 1, 140, imu));
         commands.add(new DriveCommand(drive, 5000, 1));
         commands.add(new DriveCommand(drive, 7500, -1));
 
