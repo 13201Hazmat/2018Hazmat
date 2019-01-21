@@ -5,6 +5,7 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import junit.runner.Version;
@@ -13,10 +14,12 @@ import org.firstinspires.ftc.teamcode.auto.ICommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.auto.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 import java.util.ArrayList;
 
@@ -27,9 +30,13 @@ public class AutoPath2 extends OpMode {
     private Drive drive;
     private Climb climber;
     private Arm arm;
+    private Intake intake;
+    private Servo intakeServo1;
+    private Servo intakeServo2;
     private boolean climbed;
     private ClimbCommand climbingCommand;
     private ArmCommand initArmCommand;
+    private IntakeCommand intakeCommand;
     private String version;
 
     @Override
@@ -40,6 +47,8 @@ public class AutoPath2 extends OpMode {
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
         DcMotor BackRightMotor = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        intakeServo1 = hardwareMap.servo.get("right_intake_servo");
+        intakeServo2 = hardwareMap.servo.get("left_intake_servo");
         DcMotor climberMotor = hardwareMap.dcMotor.get("lift_motor");
         DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
@@ -58,13 +67,13 @@ public class AutoPath2 extends OpMode {
         drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Drive.reset(drive);
         climber = new Climb(climberMotor);
-        arm = new Arm(armMotor,sensor);
+        arm = new Arm(armMotor, sensor);
+        intake = new Intake(intakeMotor, intakeServo1, intakeServo2);
 
         commands = new ArrayList<ICommand>();
-        commands.add(new ClimbCommand(climber,true));
+        commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, 900, 1));
-        commands.add(new TurnCommand(drive, 1, 65,imu));
-        commands.add(new ArmCommand(armMotor, false));
+        commands.add(new TurnCommand(drive, 1, 65, imu));
         commands.add(new DriveCommand(drive, 3300, 1));
         commands.add(new TurnCommand(drive, 1, 140, imu));
         commands.add(new DriveCommand(drive, 5000, 1));
@@ -72,25 +81,25 @@ public class AutoPath2 extends OpMode {
 
 
         climbingCommand = new ClimbCommand(climber, false);
-        currentIndex=0;
-        climbed=false;
+        currentIndex = 0;
+        climbed = false;
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setTargetPosition(-60);
         armMotor.setPower(.5);
         telemetry.addData("Status", "Init");
-        telemetry.addData(("Version"),version);
+        telemetry.addData(("Version"), version);
         telemetry.update();
     }
 
     @Override
     public void loop() {
         arm.update();
-        telemetry.addData("Left Encoders: ",drive.GetLeftEncoders());
-        telemetry.addData("Right Encoders: ",drive.GetRightEncoders());
+        telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
+        telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.update();
-        if(currentIndex>0&&!climbed){
-            climbed=!climbingCommand.runCommand();
+        if (currentIndex > 0 && !climbed) {
+            climbed = !climbingCommand.runCommand();
         }
         if (currentIndex < commands.size()) {
             if (commands.get(currentIndex).runCommand()) {
