@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
+import org.firstinspires.ftc.teamcode.auto.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.auto.ICommand;
 import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 @Autonomous
 public class AutoPath1 extends OpMode {
@@ -28,18 +28,25 @@ public class AutoPath1 extends OpMode {
     private Drive drive;
     private Climb climber;
     private Arm arm;
+    private Intake intake;
+    private Servo intakeServo1;
+    private Servo intakeServo2;
     private boolean climbed;
     private ClimbCommand climbingCommand;
     private ArmCommand initArmCommand;
+    private IntakeCommand intakeCommand;
+    public String version;
 
     @Override
     public void init() {
-
+        version = "1.0";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
         DcMotor BackRightMotor = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        intakeServo1 = hardwareMap.servo.get("right_intake_servo");
+        intakeServo2 = hardwareMap.servo.get("left_intake_servo");
         DcMotor climberMotor = hardwareMap.dcMotor.get("lift_motor");
         DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
@@ -59,19 +66,18 @@ public class AutoPath1 extends OpMode {
         Drive.reset(drive);
         climber = new Climb(climberMotor);
         arm = new Arm(armMotor, sensor);
+        intake = new Intake(intakeMotor, intakeServo1, intakeServo2);
 
         commands = new ArrayList<ICommand>();
-        /*commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, 5300, 1));
-        //commands.add(new ArmCommand(armMotor, false));
+        commands.add(new ClimbCommand(climber, true));
+        commands.add(new DriveCommand(drive, 2650, 1));
+        commands.add(new IntakeCommand(intake, -1.0, true));
+        commands.add(new DriveCommand(drive, 2650, 1));
+        commands.add(new IntakeCommand(intake, 0,false));
         commands.add(new DriveCommand(drive, 10, -1));
         commands.add(new DriveCommand(drive, 10, 1));
         commands.add(new TurnCommand(drive, 1, -48, imu));
-        commands.add(new DriveCommand(drive, 8050, -1));*/
-
-        commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, 5300, 1));
-        commands.add(new DriveCommand(drive,1440,-1));
+        commands.add(new DriveCommand(drive, 8050, -1));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
@@ -90,6 +96,8 @@ public class AutoPath1 extends OpMode {
         arm.update();
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
+        telemetry.addData("Servo 1:", intakeServo1.getPosition());
+        telemetry.addData("Servo 2:", intakeServo2.getPosition());
         telemetry.update();
         if (currentIndex > 0 && !climbed) {
             climbed = !climbingCommand.runCommand();
