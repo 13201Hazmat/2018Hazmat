@@ -18,18 +18,6 @@ public class TeleIntake {
     }
 
     public void update() {
-        boolean suck = controller.right_trigger > 0.5;
-        boolean spit = controller.left_trigger > 0.5;
-        if (suck) {
-            intake.setIntakeSpeed(1);
-        } else {
-            intake.stopAtAngle(30.0);
-        }
-        if (spit) {
-            intake.setIntakeSpeed(-1);
-        } else {
-            intake.stopAtAngle(30.0);
-        }
         if (controller.dpad_down) {
             intake.setIntakePosition(true);
         } else if (controller.dpad_up) {
@@ -37,14 +25,24 @@ public class TeleIntake {
         }
 
 
-
-        if (controller.a) {
-            intake.setIntakeSpeed(1);
-        } else if (controller.start) {
-            intake.setIntakeSpeed(-1);
+        if (controller.a || controller.right_trigger > .5) {
+            if (controller.a) {
+                intake.setIntakeSpeed(.5);
+            } else {
+                intake.setIntakeSpeed(1);
+            }
+        } else if (controller.start || controller.left_trigger > .5) {
+            if (controller.start) {
+                intake.setIntakeSpeed(-.5);
+            } else {
+                intake.setIntakeSpeed(-1);
+            }
         } else {
             intake.setIntakeSpeed(0);
             time = 0;
+        }
+        if (controller.right_trigger > .5) {
+            intake.setIntakeSpeed(0.5);
         }
     }
 
