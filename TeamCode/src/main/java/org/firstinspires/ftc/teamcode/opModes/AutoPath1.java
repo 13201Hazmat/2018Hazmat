@@ -66,8 +66,6 @@ public class AutoPath1 extends OpMode {
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
         commands.add(new TurnCommand(drive, Integer.MAX_VALUE, -48, imu));
         commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
 
