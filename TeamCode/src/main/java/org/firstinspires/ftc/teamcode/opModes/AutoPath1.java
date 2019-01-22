@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
@@ -30,7 +33,7 @@ public class AutoPath1 extends OpMode {
     private Arm arm;
     private boolean climbed;
     private ClimbCommand climbingCommand;
-    private ArmCommand initArmCommand;
+    BNO055IMU imu;
 
     @Override
     public void init() {
@@ -53,7 +56,7 @@ public class AutoPath1 extends OpMode {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         //
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
         drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Drive.reset(drive);
@@ -61,26 +64,16 @@ public class AutoPath1 extends OpMode {
         arm = new Arm(armMotor, sensor);
 
         commands = new ArrayList<ICommand>();
-        /*commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, 5300, 1));
-        //commands.add(new ArmCommand(armMotor, false));
-        commands.add(new DriveCommand(drive, 10, -1));
-        commands.add(new DriveCommand(drive, 10, 1));
-        commands.add(new TurnCommand(drive, 1, -48, imu));
-        commands.add(new DriveCommand(drive, 8050, -1));*/
-
         commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, 5300, 1));
-        commands.add(new DriveCommand(drive,1440,-1));
+        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
+        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
+        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
+        commands.add(new TurnCommand(drive, Integer.MAX_VALUE, -48, imu));
+        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
-        /*armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        armMotor.setTargetPosition(-60);
-        armMotor.setPower(.5);*/
         telemetry.addData("Status", "Init");
         telemetry.update();
     }
@@ -90,16 +83,21 @@ public class AutoPath1 extends OpMode {
         arm.update();
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
+        telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
         telemetry.update();
-        if (currentIndex > 0 && !climbed) {
-            climbed = !climbingCommand.runCommand();
-        }
-        if (currentIndex < commands.size()) {
-            if (commands.get(currentIndex).runCommand()) {
-                currentIndex++;
-                Drive.reset(drive);
-
+        if (gamepad1.a) {
+            if (currentIndex > 0 && !climbed) {
+                climbed = !climbingCommand.runCommand();
             }
+            if (currentIndex < commands.size()) {
+                if (commands.get(currentIndex).runCommand()) {
+                    currentIndex++;
+                    Drive.reset(drive);
+
+                }
+            }
+        }else if(gamepad1.b){
+            currentIndex++;
         }
     }
 }
