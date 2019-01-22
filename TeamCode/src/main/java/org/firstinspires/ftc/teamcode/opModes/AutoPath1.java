@@ -15,9 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
-import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.auto.ICommand;
@@ -30,7 +28,6 @@ public class AutoPath1 extends OpMode {
     private int currentIndex;
     private Drive drive;
     private Climb climber;
-    private Arm arm;
     private boolean climbed;
     private ClimbCommand climbingCommand;
     BNO055IMU imu;
@@ -44,7 +41,6 @@ public class AutoPath1 extends OpMode {
         DcMotor BackRightMotor = hardwareMap.dcMotor.get("back_right_motor");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake_motor");
         DcMotor climberMotor = hardwareMap.dcMotor.get("lift_motor");
-        DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
 
         //
@@ -61,7 +57,6 @@ public class AutoPath1 extends OpMode {
         drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Drive.reset(drive);
         climber = new Climb(climberMotor);
-        arm = new Arm(armMotor, sensor);
 
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
@@ -78,7 +73,6 @@ public class AutoPath1 extends OpMode {
 
     @Override
     public void loop() {
-        arm.update();
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
