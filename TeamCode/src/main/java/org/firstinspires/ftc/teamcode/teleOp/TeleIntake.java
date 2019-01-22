@@ -23,8 +23,6 @@ public class TeleIntake {
         } else if (controller.dpad_up) {
             intake.setIntakePosition(false);
         }
-
-
         if (controller.a || controller.right_trigger > .5) {
             if (controller.a) {
                 intake.setIntakeSpeed(.5);
