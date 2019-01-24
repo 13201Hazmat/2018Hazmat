@@ -60,9 +60,9 @@ public class AutoPath1 extends OpMode {
 
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
-        commands.add(new TurnCommand(drive, Integer.MAX_VALUE, -48, imu));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
+        commands.add(new DriveCommand(drive, 100, 1));
+        commands.add(new TurnCommand(drive, 1, -1, imu));
+        commands.add(new DriveCommand(drive, 100, -1));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
@@ -77,19 +77,15 @@ public class AutoPath1 extends OpMode {
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
         telemetry.update();
-        if (gamepad1.a) {
-            if (currentIndex > 0 && !climbed) {
-                climbed = !climbingCommand.runCommand();
-            }
-            if (currentIndex < commands.size()) {
-                if (commands.get(currentIndex).runCommand()) {
-                    currentIndex++;
-                    Drive.reset(drive);
+        if (currentIndex > 0 && !climbed) {
+            climbed = !climbingCommand.runCommand();
+        }
+        if (currentIndex < commands.size()) {
+            if (commands.get(currentIndex).runCommand() && !gamepad1.a) {
+                currentIndex++;
+                Drive.reset(drive);
 
-                }
             }
-        }else if(gamepad1.b){
-            currentIndex++;
         }
     }
 }
