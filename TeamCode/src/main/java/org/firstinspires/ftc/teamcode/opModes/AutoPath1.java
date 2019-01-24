@@ -80,8 +80,8 @@ public class AutoPath1 extends OpMode {
         if (currentIndex > 0 && !climbed) {
             climbed = !climbingCommand.runCommand();
         }
-        if (currentIndex < commands.size()) {
-            if (commands.get(currentIndex).runCommand() && !gamepad1.a) {
+        if (currentIndex < commands.size()&& gamepad1.a) {
+            if (commands.get(currentIndex).runCommand() && gamepad1.b) {
                 currentIndex++;
                 Drive.reset(drive);
 
