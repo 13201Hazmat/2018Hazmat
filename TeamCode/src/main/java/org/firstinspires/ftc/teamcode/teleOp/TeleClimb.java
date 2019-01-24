@@ -26,9 +26,9 @@ public class TeleClimb {
             power = 0;
         } else {
             if (controller.left_bumper) {
-                power = 1;
-            } else if (controller.right_bumper) {
                 power = -1;
+            } else if (controller.right_bumper) {
+                power = 1;
             } else if (controller.back) {
                 power = 0;
             }

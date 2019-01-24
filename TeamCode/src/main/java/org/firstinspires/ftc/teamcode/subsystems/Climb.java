@@ -15,10 +15,10 @@ public class Climb {
     }
 
     public boolean setClimb(double power) {
-        if (power < 0 && motor.getCurrentPosition() >= topEncoder) {
+        if (power > 0 && motor.getCurrentPosition() <= topEncoder) {
             motor.setPower(power);
             return false;
-        } else if (power > 0 && motor.getCurrentPosition() <= bottomEncoder) {
+        } else if (power < 0 && motor.getCurrentPosition() >= bottomEncoder) {
             motor.setPower(power);
             return false;
         } else {
