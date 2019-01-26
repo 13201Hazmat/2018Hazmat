@@ -77,11 +77,16 @@ public class AutoPath1 extends OpMode {
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, 4800, 1));
+        /*commands.add(new DriveCommand(drive, 2400, 1));
+        commands.add(new IntakeCommand(intake, -1, true));
+        commands.add(new DriveCommand(drive, 2400, 1));
+        commands.add(new IntakeCommand(intake, 0,false));*/
         commands.add(new DriveCommand(drive, 1250, -1));
         commands.add(new TurnCommand(drive, 1, 45, imu));
         commands.add(new DriveCommand(drive, 1500, 1));
         commands.add(new TurnCommand(drive, 1,135,imu));
         commands.add(new DriveCommand(drive,3500,1));
+        commands.add(new IntakeCommand(intake, .2,true));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
