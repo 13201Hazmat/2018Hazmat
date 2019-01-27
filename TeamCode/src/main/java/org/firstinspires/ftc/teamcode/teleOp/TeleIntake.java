@@ -7,18 +7,40 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 public class TeleIntake {
     private Intake intake;
     private Gamepad controller;
+    private long time;
+    private int count;
 
     public TeleIntake(Intake in, Gamepad c) {
         intake = in;
         controller = c;
+        time = 0;
+        count = 0;
     }
 
     public void update() {
-        boolean suck = controller.right_trigger > 0.5;
-        if (suck) {
-            intake.setIntakeSpeed(1);
+        if (controller.dpad_down) {
+            intake.setIntakePosition(true);
+        } else if (controller.dpad_up) {
+            intake.setIntakePosition(false);
+        }
+        if (controller.a || controller.right_trigger > .5) {
+            if (controller.a) {
+                intake.setIntakeSpeed(.5);
+            } else {
+                intake.setIntakeSpeed(1);
+            }
+        } else if (controller.start || controller.left_trigger > .5) {
+            if (controller.start) {
+                intake.setIntakeSpeed(-.5);
+            } else {
+                intake.setIntakeSpeed(-1);
+            }
         } else {
-            intake.stopAtAngle(30.0);
+            intake.setIntakeSpeed(0);
+            time = 0;
+        }
+        if (controller.right_trigger > .5) {
+            intake.setIntakeSpeed(0.5);
         }
     }
 

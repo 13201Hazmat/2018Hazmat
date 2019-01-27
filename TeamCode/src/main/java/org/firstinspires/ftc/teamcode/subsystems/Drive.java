@@ -47,12 +47,12 @@ public class Drive {
 
     public void ResetEncoders() {
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
