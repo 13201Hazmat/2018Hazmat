@@ -34,4 +34,7 @@ public class Climb {
     public void setPower(double power){
         motor.setPower(power);
     }
+    public DcMotor getMotor(){
+        return motor;
+    }
 }

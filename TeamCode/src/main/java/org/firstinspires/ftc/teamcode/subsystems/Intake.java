@@ -18,10 +18,13 @@ public class Intake {
         intakeServo2 = servo2;
     }
 
+    public void setIntakePosition(double left,double right){
+        intakeServo.setPosition(left);
+        intakeServo2.setPosition(right);
+    }
     public void setIntakePosition(boolean down) {
         if (down) {
             //if (intakeServo.getPosition() < .6 && intakeServo2.getPosition() > .4) {
-
                 intakeServo.setPosition(intakeServo.getPosition() + .1);
                 intakeServo2.setPosition(intakeServo2.getPosition() - .1);
            // }

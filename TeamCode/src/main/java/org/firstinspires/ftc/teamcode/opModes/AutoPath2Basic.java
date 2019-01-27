@@ -44,7 +44,7 @@ public class AutoPath2Basic extends OpMode {
 
     @Override
     public void init() {
-        version = "2.0";
+        version = "2.2";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -70,13 +70,13 @@ public class AutoPath2Basic extends OpMode {
         drive = new Drive(FrontLeftMotor, BackLeftMotor, BackRightMotor, FrontRightMotor);
         Drive.reset(drive);
         climber = new Climb(climberMotor);
-        intake = new Intake(intakeMotor,intakeServo, intakeServo2);
+        intake = new Intake(intakeMotor, intakeServo, intakeServo2);
         arm = new Arm(armMotor, sensor);
 
         commands = new ArrayList<ICommand>();
-        commands.add(new ClimbCommand(climber,true));
+        commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, 2160, 1));
-        commands.add(new IntakeCommand(intake, .2, true));
+        commands.add(new IntakeCommand(intake, .2, .6, .4));
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
@@ -90,20 +90,13 @@ public class AutoPath2Basic extends OpMode {
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
+        telemetry.addData("Climb encover: ",climber.getMotor().getCurrentPosition());
         telemetry.update();
-        if (gamepad1.a) {
-            if (currentIndex > 0 && !climbed) {
-                climbed = !climbingCommand.runCommand();
+        if (currentIndex < commands.size()) {
+            if (commands.get(currentIndex).runCommand()) {
+                currentIndex++;
+                Drive.reset(drive);
             }
-            if (currentIndex < commands.size()) {
-                if (commands.get(currentIndex).runCommand()) {
-                    currentIndex++;
-                    Drive.reset(drive);
-
-                }
-            }
-        }else if(gamepad1.b){
-            currentIndex++;
         }
     }
 }

@@ -76,22 +76,22 @@ public class AutoPath1 extends OpMode {
 
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
-        commands.add(new DriveCommand(drive, 4800, 1));
-        /*commands.add(new DriveCommand(drive, 2400, 1));
-        commands.add(new IntakeCommand(intake, -1, true));
+        //commands.add(new DriveCommand(drive, 4800, 1));
+        commands.add(new IntakeCommand(intake, -1, .6,.4));
         commands.add(new DriveCommand(drive, 2400, 1));
-        commands.add(new IntakeCommand(intake, 0,false));*/
+        commands.add(new DriveCommand(drive, 2400, 1));
+        //commands.add(new IntakeCommand(intake, 0,-1,1));
         commands.add(new DriveCommand(drive, 1250, -1));
         commands.add(new TurnCommand(drive, 1, 45, imu));
-        commands.add(new DriveCommand(drive, 1500, 1));
+        commands.add(new DriveCommand(drive, 1250, 1));
         commands.add(new TurnCommand(drive, 1,135,imu));
-        commands.add(new DriveCommand(drive,3500,1));
-        commands.add(new IntakeCommand(intake, .2,true));
+        commands.add(new DriveCommand(drive,4300,1));
+        //commands.add(new IntakeCommand(intake, .2,.6,.4));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
-        telemetry.addData("Status", "v:1.3");
+        telemetry.addData("Status", "v:1.5");
         telemetry.update();
     }
 
@@ -102,9 +102,6 @@ public class AutoPath1 extends OpMode {
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
         telemetry.update();
-        if (currentIndex > 0 && !climbed) {
-            //climbed = !climbingCommand.runCommand();
-        }
         if (currentIndex < commands.size()) {
             if (commands.get(currentIndex).runCommand()) {
                 currentIndex++;
