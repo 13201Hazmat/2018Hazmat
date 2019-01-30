@@ -10,6 +10,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.auto.commands.ArmCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.ClimbCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.IntakeCommand;
@@ -20,6 +23,7 @@ import org.firstinspires.ftc.teamcode.auto.ICommand;
 import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
+
 
 @Autonomous
 public class AutoPath1 extends OpMode {
@@ -36,6 +40,13 @@ public class AutoPath1 extends OpMode {
     private ArmCommand initArmCommand;
     private IntakeCommand intakeCommand;
     public String version;
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private static final String VUFORIA_KEY = "AeZ0lyb/////AAABmR6FITE0NUyhk5ZOti1IBIJ3pIRPfIwcxUDngtgoPdAcQRq+mIIDpzP2P5dKIghdz9n0UFlZ3VRd0Bfdhzbk8FoP/aouesthpT0RG9oxteRIjLYPqMGd5CuKSzyTv7kkFWnb4X8vXmWEiu6jljfmZz1ReoV7orgI8LLslbW2XcSvRZMo6sVv1ahpdTJ9nUjhtxn26+EDUFfc9jDay12jGJFj97TLoCXv645WsnAQtc777IaYjTN/DbQXwR2aKptID98EI5iqioJkG6KZqove3Ft124KSnkqrMgEP8bmA0CoFmDQ324pz8VhFflJOb6me+r9K0Sd+amuv8PxRmT5UFEVnSZz9ZiW0Qu05F7bDWfHN";
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
+
 
     @Override
     public void init() {
@@ -50,6 +61,10 @@ public class AutoPath1 extends OpMode {
         DcMotor climberMotor = hardwareMap.dcMotor.get("lift_motor");
         DcMotor armMotor = hardwareMap.dcMotor.get("arm_motor");
         TouchSensor sensor = hardwareMap.touchSensor.get("touch_sensor");
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+            initVuforia();
+        }
 
         //
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -73,12 +88,11 @@ public class AutoPath1 extends OpMode {
         commands.add(new DriveCommand(drive, 2650, 1));
         commands.add(new IntakeCommand(intake, -1.0, true));
         commands.add(new DriveCommand(drive, 2650, 1));
-        commands.add(new IntakeCommand(intake, 0,false));
+        commands.add(new IntakeCommand(intake, 0, false));
         commands.add(new DriveCommand(drive, 10, -1));
         commands.add(new DriveCommand(drive, 10, 1));
         commands.add(new TurnCommand(drive, 1, -48, imu));
         commands.add(new DriveCommand(drive, 8050, -1));
-
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
@@ -90,6 +104,7 @@ public class AutoPath1 extends OpMode {
         telemetry.addData("Status", "Init");
         telemetry.update();
     }
+
 
     @Override
     public void loop() {
@@ -109,5 +124,19 @@ public class AutoPath1 extends OpMode {
 
             }
         }
+    }
+
+    public void initVuforia() {
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+    }
+
+    public void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
 }
