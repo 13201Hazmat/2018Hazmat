@@ -72,7 +72,7 @@ public class AutoPath7 extends OpMode {
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
         commands.add(new DriveCommand(drive, 2160, 1));
-        commands.add(new IntakeCommand(intake, .2, .6, .4));
+        //commands.add(new IntakeCommand(intake, .2, .6, .4));
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
