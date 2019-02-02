@@ -27,8 +27,9 @@ import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-@Autonomous
+@Autonomous (name = "AutoPath2:From_Depot_to_our_Crater")
 public class AutoPath2 extends OpMode {
+
     private ArrayList<ICommand> commands;
     private int currentIndex;
     private Drive drive;
@@ -74,41 +75,39 @@ public class AutoPath2 extends OpMode {
         arm = new Arm(armMotor, sensor);
 
         commands = new ArrayList<ICommand>();
-        commands.add(new ClimbCommand(climber,true));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
-        commands.add(new TurnCommand(drive, 1, Integer.MAX_VALUE,imu));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
-        commands.add(new TurnCommand(drive, 1, Integer.MAX_VALUE, imu));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, 1));
-        commands.add(new DriveCommand(drive, Integer.MAX_VALUE, -1));
+        commands.add(new ClimbCommand(climber, true));
+        //commands.add(new DriveCommand(drive, 4800, 1));
+        commands.add(new IntakeCommand(intake, -1, .6,.4));
+        commands.add(new DriveCommand(drive, 2400, 1));
+        commands.add(new DriveCommand(drive, 2400, 1));
+        commands.add(new IntakeCommand(intake, 0,-1,1));
+        commands.add(new DriveCommand(drive, 1250, -1));
+        commands.add(new TurnCommand(drive, 1, -45, imu));
+        commands.add(new DriveCommand(drive, 1250, 1));
+        commands.add(new TurnCommand(drive, 1,-135,imu));
+        commands.add(new DriveCommand(drive,4300,1));
+        commands.add(new IntakeCommand(intake, .2,.6,.4));
 
         climbingCommand = new ClimbCommand(climber, false);
         currentIndex = 0;
         climbed = false;
-        telemetry.addData("Status", "Init");
+        telemetry.addData("Status", "v:1.5");
         telemetry.update();
     }
 
     @Override
     public void loop() {
-        telemetry.addData("Version:", version);
+        telemetry.addData("Version", version);
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
         telemetry.update();
-        if (gamepad1.a) {
-            if (currentIndex > 0 && !climbed) {
-                climbed = !climbingCommand.runCommand();
-            }
-            if (currentIndex < commands.size()) {
-                if (commands.get(currentIndex).runCommand()) {
-                    currentIndex++;
-                    Drive.reset(drive);
+        if (currentIndex < commands.size()) {
+            if (commands.get(currentIndex).runCommand()) {
+                currentIndex++;
+                Drive.reset(drive);
 
-                }
             }
-        }else if(gamepad1.b){
-            currentIndex++;
         }
     }
 }

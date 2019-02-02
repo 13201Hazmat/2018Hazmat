@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 import java.util.ArrayList;
 
-@Autonomous (name="AutoPath7:Climb_Down")
+@Autonomous(name="AutoPath7:Climb_Down")
 public class AutoPath7 extends OpMode {
     private ArrayList<ICommand> commands;
     private int currentIndex;

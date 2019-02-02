@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.auto.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.auto.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-@Autonomous
+@Autonomous (name = "AutoPath1:From_Depot_to_Opponent_Crater")
 public class AutoPath1 extends OpMode {
 
     private ArrayList<ICommand> commands;
