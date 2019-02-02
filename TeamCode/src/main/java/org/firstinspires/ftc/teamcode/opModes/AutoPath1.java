@@ -76,7 +76,35 @@ public class AutoPath1 extends OpMode {
 
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
-        commands.add(new IntakeCommand(intake, -1, .6,.4));
+        commands.add(new IntakeCommand(intake, 0, .6,.4));
+        //
+        switch (command){
+            case 1:
+                commands.add(new TurnCommand(drive,1,-15,imu));
+                commands.add(new DriveCommand(drive,2500,1));
+                commands.add(new TurnCommand(drive,1,15,imu));
+                commands.add(new DriveCommand(drive,2500,1));
+                commands.add(new DriveCommand(drive,2500,-1));
+                commands.add(new TurnCommand(drive,1,-15,imu));
+                commands.add(new DriveCommand(drive,2500,-1));
+                break;
+            case 2:
+                commands.add(new DriveCommand(drive, 2400, 1));
+                commands.add(new DriveCommand(drive, 2400, 1));
+                commands.add(new IntakeCommand(intake, 0,-1,1));
+                commands.add(new DriveCommand(drive, 3250, -1));
+            case 3:
+                commands.add(new TurnCommand(drive,1,15,imu));
+                commands.add(new DriveCommand(drive,2500,1));
+                commands.add(new TurnCommand(drive,1,-15,imu));
+                commands.add(new DriveCommand(drive,2500,1));
+                commands.add(new DriveCommand(drive,2500,-1));
+                commands.add(new TurnCommand(drive,1,15,imu));
+                commands.add(new DriveCommand(drive,2500,-1));
+                break;
+        }
+
+
         commands.add(new DriveCommand(drive, 2400, 1));
         commands.add(new DriveCommand(drive, 2400, 1));
         commands.add(new IntakeCommand(intake, 0,-1,1));
