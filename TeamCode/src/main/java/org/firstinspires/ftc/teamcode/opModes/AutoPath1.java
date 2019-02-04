@@ -119,6 +119,12 @@ public class AutoPath1 extends OpMode {
         commands = new ArrayList<ICommand>();
         commands.add(new ClimbCommand(climber, true));
         commands.add(new IntakeCommand(intake, 0, .6, .4));
+        if (currentIndex < commands.size()) {
+            if (commands.get(currentIndex).runCommand()) {
+                currentIndex++;
+                Drive.reset(drive);
+            }
+        }
         path = vision.doVision();
         //
         switch (path) {
