@@ -20,7 +20,10 @@ public class Vision {
     private int locationOfGoldMineral = -1;
     public ElapsedTime RunTime = new ElapsedTime();
 
-    public int Vision() {
+    public void Vision(){
+
+    }
+    public int doVision() {
         tfod.activate();
         RunTime.reset();
         while (RunTime.time() < 5) {
