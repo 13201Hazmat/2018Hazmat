@@ -26,3 +26,7 @@ build/
 
 *ASUS_PC_01*
 
+
+ftc-object-detection-master/TFObjectDetector/gradle/wrapper/gradle-wrapper\.jar
+
+*.jar
