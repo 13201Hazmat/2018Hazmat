@@ -54,7 +54,10 @@ public class AutoPath1 extends OpMode {
     public static final String VUFORIA_KEY = "AeZ0lyb/////AAABmR6FITE0NUyhk5ZOti1IBIJ3pIRPfIwcxUDngtgoPdAcQRq+mIIDpzP2P5dKIghdz9n0UFlZ3VRd0Bfdhzbk8FoP/aouesthpT0RG9oxteRIjLYPqMGd5CuKSzyTv7kkFWnb4X8vXmWEiu6jljfmZz1ReoV7orgI8LLslbW2XcSvRZMo6sVv1ahpdTJ9nUjhtxn26+EDUFfc9jDay12jGJFj97TLoCXv645WsnAQtc777IaYjTN/DbQXwR2aKptID98EI5iqioJkG6KZqove3Ft124KSnkqrMgEP8bmA0CoFmDQ324pz8VhFflJOb6me+r9K0Sd+amuv8PxRmT5UFEVnSZz9ZiW0Qu05F7bDWfHN";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
-    private boolean start = true;
+    private boolean start1 = true;
+    private boolean start2 = false;
+    private boolean start3 = false;
+
 
     private void initVuforia() {
 
@@ -107,7 +110,7 @@ public class AutoPath1 extends OpMode {
         climber = new Climb(climberMotor);
         intake = new Intake(intakeMotor, intakeServo, intakeServo2);
         arm = new Arm(armMotor, sensor);
-
+        commands = new ArrayList<ICommand>();
     }
 
     @Override
@@ -117,25 +120,17 @@ public class AutoPath1 extends OpMode {
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
         telemetry.update();
-        if (start) {
-            commands = new ArrayList<ICommand>();
-            telemetry.addData("LETS GO", "CLIMBIG");
-            telemetry.update();
-            DcMotor climberMotor = hardwareMap.dcMotor.get("lift_motor");
-            climberMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            climberMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            climberMotor.setPower(1);
-            climberMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            while (climberMotor.getCurrentPosition() < 8000) ;
-            climberMotor.setPower(0);
-            telemetry.addData("CLIMED", "TRUE");
-            telemetry.update();
-            Servo intakeServo = hardwareMap.servo.get("right_intake_servo");
-            Servo intakeServo2 = hardwareMap.servo.get("left_intake_servo");
-            intakeServo.setPosition(.6);
-            intakeServo2.setPosition(.4);
-            telemetry.addData("INTAKE", "TRUE");
-            telemetry.update();
+        if (start1) {
+            commands.add(new ClimbCommand(climber, true));
+            start1 = false;
+            start2 = true;
+        }
+        if (start2) {
+            commands.add(new IntakeCommand(intake, 0.6, 0, 4));
+            start2 = false;
+            start3 = true;
+        }
+        if (start3) {
             path = vision.doVision(tfod);
             telemetry.addData("PATH: ", path);
             telemetry.update();
@@ -179,8 +174,9 @@ public class AutoPath1 extends OpMode {
             climbingCommand = new ClimbCommand(climber, false);
             currentIndex = 0;
             climbed = false;
-            start = false;
+            start3 = false;
         }
+
         if (currentIndex < commands.size()) {
             if (commands.get(currentIndex).runCommand()) {
                 currentIndex++;
