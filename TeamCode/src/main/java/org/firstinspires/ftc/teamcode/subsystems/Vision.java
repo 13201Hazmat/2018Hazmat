@@ -6,8 +6,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.*;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.List;
 
 public class Vision {
@@ -18,47 +20,43 @@ public class Vision {
     private int locationOfGoldMineral = -1;
     public ElapsedTime RunTime = new ElapsedTime();
 
-    public void Vision(){
+    public void Vision() {
 
     }
+
     public int doVision(TFObjectDetector tfod) {
         tfod.activate();
         RunTime.reset();
-        while (RunTime.time() < 10) {
-            if (tfod != null) {
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    if (updatedRecognitions.size() == 3) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
-                        for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                goldMineralX = (int) recognition.getLeft();
-                            } else if (silverMineral1X == -1) {
-                                silverMineral1X = (int) recognition.getLeft();
-                            } else {
-                                silverMineral2X = (int) recognition.getLeft();
-                            }
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                if (updatedRecognitions.size() == 3) {
+                    int goldMineralX = -1;
+                    int silverMineral1X = -1;
+                    int silverMineral2X = -1;
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                            goldMineralX = (int) recognition.getLeft();
+                        } else if (silverMineral1X == -1) {
+                            silverMineral1X = (int) recognition.getLeft();
+                        } else {
+                            silverMineral2X = (int) recognition.getLeft();
                         }
-                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                            if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                //If Gold is on the left
-                                locationOfGoldMineral = 0;
-                            } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                //If Gold is on the right
-                                locationOfGoldMineral = 2;
-                            } else {
-                                //If Gold is on the center
-                                locationOfGoldMineral = 1;
-                            }
+                    }
+                    if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                        if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                            //If Gold is on the left
+                            locationOfGoldMineral = 0;
+                        } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                            //If Gold is on the right
+                            locationOfGoldMineral = 2;
+                        } else {
+                            //If Gold is on the center
+                            locationOfGoldMineral = 1;
                         }
                     }
                 }
             }
-        }
-        if (tfod != null) {
-            tfod.shutdown();
         }
         return locationOfGoldMineral;
     }

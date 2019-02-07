@@ -41,8 +41,7 @@ public class AutoPath1 extends OpMode {
     private Arm arm;
     private Intake intake;
     private boolean climbed;
-    private ClimbCommand climbingCommand;
-    private ArmCommand initArmCommand;
+    private ClimbCommand climbCommand;
     private IntakeCommand intakeCommand;
     BNO055IMU imu;
     public String version;
@@ -54,9 +53,9 @@ public class AutoPath1 extends OpMode {
     public static final String VUFORIA_KEY = "AeZ0lyb/////AAABmR6FITE0NUyhk5ZOti1IBIJ3pIRPfIwcxUDngtgoPdAcQRq+mIIDpzP2P5dKIghdz9n0UFlZ3VRd0Bfdhzbk8FoP/aouesthpT0RG9oxteRIjLYPqMGd5CuKSzyTv7kkFWnb4X8vXmWEiu6jljfmZz1ReoV7orgI8LLslbW2XcSvRZMo6sVv1ahpdTJ9nUjhtxn26+EDUFfc9jDay12jGJFj97TLoCXv645WsnAQtc777IaYjTN/DbQXwR2aKptID98EI5iqioJkG6KZqove3Ft124KSnkqrMgEP8bmA0CoFmDQ324pz8VhFflJOb6me+r9K0Sd+amuv8PxRmT5UFEVnSZz9ZiW0Qu05F7bDWfHN";
     public VuforiaLocalizer vuforia;
     public TFObjectDetector tfod;
-    private boolean start1 = true;
-    private boolean start2 = false;
-    private boolean start3 = false;
+    private boolean start1;
+    private boolean start2;
+
 
 
     private void initVuforia() {
@@ -82,7 +81,7 @@ public class AutoPath1 extends OpMode {
     public void init() {
         initVuforia();
         initTfod();
-        version = "2.2";
+        version = "3.0";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -111,6 +110,12 @@ public class AutoPath1 extends OpMode {
         intake = new Intake(intakeMotor, intakeServo, intakeServo2);
         arm = new Arm(armMotor, sensor);
         commands = new ArrayList<ICommand>();
+        start1=true;
+        start2=false;
+        currentIndex=0;
+        intakeCommand = new IntakeCommand(intake,0,.6,.4);
+        climbCommand = new ClimbCommand(climber,true);
+        path=-2;
     }
 
     @Override
@@ -119,69 +124,73 @@ public class AutoPath1 extends OpMode {
         telemetry.addData("Left Encoders: ", drive.GetLeftEncoders());
         telemetry.addData("Right Encoders: ", drive.GetRightEncoders());
         telemetry.addData("Angle: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES));
-        telemetry.update();
-        if (start1) {
-            commands.add(new ClimbCommand(climber, true));
-            start1 = false;
-            start2 = true;
+        path = vision.doVision(tfod);
+
+        if(start1){
+            intakeCommand.runCommand();
+            if(climbCommand.runCommand()){
+                start1=false;
+                start2=true;
+                telemetry.addData("DownDog","u know it");
+                telemetry.update();
+            }
         }
         if (start2) {
-            commands.add(new IntakeCommand(intake, 0.6, 0, 4));
-            start2 = false;
-            start3 = true;
-        }
-        if (start3) {
-            path = vision.doVision(tfod);
-            telemetry.addData("PATH: ", path);
-            telemetry.update();
             //
+            commands.add(new IntakeCommand(intake,-1,.6,.4));
             switch (path) {
-                case 0:
-                    commands.add(new TurnCommand(drive, 1, -15, imu));
+                case 2:
+                    commands.add(new DriveCommand(drive,200,1));
+                    commands.add(new TurnCommand(drive, 1, -30, imu));
                     commands.add(new DriveCommand(drive, 2500, 1));
-                    commands.add(new TurnCommand(drive, 1, 15, imu));
+                    commands.add(new TurnCommand(drive, 1, 30, imu));
                     commands.add(new DriveCommand(drive, 2500, 1));
                     commands.add(new DriveCommand(drive, 2500, -1));
-                    commands.add(new TurnCommand(drive, 1, -15, imu));
+                    commands.add(new TurnCommand(drive, 1, -30, imu));
                     commands.add(new DriveCommand(drive, 2500, -1));
+                    commands.add(new TurnCommand(drive,1,0,imu));
+                    commands.add(new DriveCommand(drive,1500,1));
                     break;
                 case 1:
-                    commands.add(new DriveCommand(drive, 2400, 1));
-                    commands.add(new DriveCommand(drive, 2400, 1));
+                    commands.add(new DriveCommand(drive, 4800, 1));
                     commands.add(new IntakeCommand(intake, 0, -1, 1));
                     commands.add(new DriveCommand(drive, 3250, -1));
-                case 2:
-                    commands.add(new TurnCommand(drive, 1, 15, imu));
-                    commands.add(new DriveCommand(drive, 2500, 1));
-                    commands.add(new TurnCommand(drive, 1, -15, imu));
-                    commands.add(new DriveCommand(drive, 2500, 1));
-                    commands.add(new DriveCommand(drive, 2500, -1));
-                    commands.add(new TurnCommand(drive, 1, 15, imu));
-                    commands.add(new DriveCommand(drive, 2500, -1));
+                    commands.add(new TurnCommand(drive,1,95,imu));
+                    commands.add(new DriveCommand(drive, 3250, 1));
+                    break;
+                case -1:
+                    commands.add(new DriveCommand(drive, 4800, 1));
+                    commands.add(new IntakeCommand(intake, 0, -1, 1));
+                    commands.add(new DriveCommand(drive, 3250, -1));
+                    commands.add(new TurnCommand(drive,1,95,imu));
+                    commands.add(new DriveCommand(drive, 3250, 1));
+                    break;
+                case 0:
+                    commands.add(new DriveCommand(drive,200,1));
+                    commands.add(new TurnCommand(drive, 1, 30, imu));
+                    commands.add(new DriveCommand(drive, 3500, 1));
+                    commands.add(new TurnCommand(drive, 1,-45, imu));
+                    commands.add(new DriveCommand(drive, 200, 1));
+                    commands.add(new DriveCommand(drive, 300, -1));
+                    commands.add(new TurnCommand(drive, 1, 135, imu));
+                    commands.add(new DriveCommand(drive, 4500, 1));
+                    commands.add(new IntakeCommand(intake,.2,.6,.4));
+                    commands.add(new TurnCommand(drive,1,115,imu));
                     break;
             }
 
-            commands.add(new DriveCommand(drive, 2400, 1));
-            commands.add(new DriveCommand(drive, 2400, 1));
-            commands.add(new IntakeCommand(intake, 0, -1, 1));
-            commands.add(new DriveCommand(drive, 3250, -1));
-            commands.add(new TurnCommand(drive, 1, 95, imu));
-            //commands.add(new DriveCommand(drive,4300,1));
-            commands.add(new DriveCommand(drive, 3250, 1));
-            //commands.add(new TurnCommand(drive, 1 , , imu));
-            //commands.add(new DriveCommand(drive, 2150, 1));
             commands.add(new IntakeCommand(intake, .2, .6, .4));
-            climbingCommand = new ClimbCommand(climber, false);
-            currentIndex = 0;
-            climbed = false;
-            start3 = false;
+            start2=false;
         }
 
         if (currentIndex < commands.size()) {
             if (commands.get(currentIndex).runCommand()) {
+                telemetry.addData("Command Status", "finished command " + currentIndex);
                 currentIndex++;
                 Drive.reset(drive);
             }
         }
+        telemetry.addData("PATH: ", path);
+        telemetry.update();
     }
 }
