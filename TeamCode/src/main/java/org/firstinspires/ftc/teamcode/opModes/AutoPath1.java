@@ -82,7 +82,7 @@ public class AutoPath1 extends OpMode {
     public void init() {
         initVuforia();
         initTfod();
-        version = "3.0";
+        version = "3.3";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -117,6 +117,9 @@ public class AutoPath1 extends OpMode {
         intakeCommand = new IntakeCommand(intake,0,.6,.4);
         climbCommand = new ClimbCommand(climber,true);
         path=-2;
+        telemetry.addData("Status: ", "init");
+        telemetry.addData("Version: ",version);
+        telemetry.update();
     }
 
     @Override
@@ -171,12 +174,14 @@ public class AutoPath1 extends OpMode {
                     commands.add(new TurnCommand(drive, 1, 30, imu));
                     commands.add(new DriveCommand(drive, 3500, 1));
                     commands.add(new TurnCommand(drive, 1,-45, imu));
+                    commands.add(new IntakeCommand(intake,0,-1,1));
                     commands.add(new DriveCommand(drive, 200, 1));
                     commands.add(new DriveCommand(drive, 300, -1));
                     commands.add(new TurnCommand(drive, 1, 135, imu));
-                    commands.add(new DriveCommand(drive, 4500, 1));
+                    commands.add(new DriveCommand(drive, 2500, 1));
                     commands.add(new IntakeCommand(intake,.2,.6,.4));
-                    commands.add(new TurnCommand(drive,1,115,imu));
+                    commands.add(new TurnCommand(drive,1,105,imu));
+                    commands.add(new DriveCommand(drive,2200,1));
                     break;
             }
 
