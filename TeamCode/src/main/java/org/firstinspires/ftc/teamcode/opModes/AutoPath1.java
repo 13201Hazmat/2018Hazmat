@@ -82,7 +82,7 @@ public class AutoPath1 extends OpMode {
     public void init() {
         initVuforia();
         initTfod();
-        version = "3.3";
+        version = "3.4.3";
         DcMotor FrontLeftMotor = hardwareMap.dcMotor.get("front_left_motor");
         DcMotor BackLeftMotor = hardwareMap.dcMotor.get("back_left_motor");
         DcMotor FrontRightMotor = hardwareMap.dcMotor.get("front_right_motor");
@@ -149,11 +149,8 @@ public class AutoPath1 extends OpMode {
                     commands.add(new DriveCommand(drive, 2500, 1));
                     commands.add(new TurnCommand(drive, 1, 30, imu));
                     commands.add(new DriveCommand(drive, 2500, 1));
-                    commands.add(new DriveCommand(drive, 2500, -1));
-                    commands.add(new TurnCommand(drive, 1, -30, imu));
-                    commands.add(new DriveCommand(drive, 2500, -1));
-                    commands.add(new TurnCommand(drive,1,0,imu));
-                    commands.add(new DriveCommand(drive,1500,1));
+                    commands.add(new TurnCommand(drive,1,-45,imu));
+                    commands.add(new DriveCommand(drive,-5000,-1));
                     break;
                 case 1:
                     commands.add(new DriveCommand(drive, 4800, 1));
@@ -175,13 +172,15 @@ public class AutoPath1 extends OpMode {
                     commands.add(new DriveCommand(drive, 3500, 1));
                     commands.add(new TurnCommand(drive, 1,-45, imu));
                     commands.add(new IntakeCommand(intake,0,-1,1));
-                    commands.add(new DriveCommand(drive, 200, 1));
-                    commands.add(new DriveCommand(drive, 300, -1));
+                    commands.add(new DriveCommand(drive, 1000, 1));
+                    commands.add(new IntakeCommand(intake,-1,.6,.4));
+                    commands.add(new DriveCommand(drive, 600, -1));
+                    commands.add(new IntakeCommand(intake,0,-1,1));
                     commands.add(new TurnCommand(drive, 1, 135, imu));
-                    commands.add(new DriveCommand(drive, 2500, 1));
+                    commands.add(new DriveCommand(drive, 1500, 1));
                     commands.add(new IntakeCommand(intake,.2,.6,.4));
                     commands.add(new TurnCommand(drive,1,105,imu));
-                    commands.add(new DriveCommand(drive,2200,1));
+                    commands.add(new DriveCommand(drive,1500,1));
                     break;
             }
 
