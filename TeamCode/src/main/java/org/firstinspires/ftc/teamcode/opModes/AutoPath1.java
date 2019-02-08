@@ -75,7 +75,7 @@ public class AutoPath1 extends OpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-        tfodParameters.minimumConfidence = 0.85;
+        tfodParameters.minimumConfidence = 0.6;
     }
 
     @Override
@@ -146,11 +146,11 @@ public class AutoPath1 extends OpMode {
                 case 2:
                     commands.add(new DriveCommand(drive,200,1));
                     commands.add(new TurnCommand(drive, 1, -30, imu));
-                    commands.add(new DriveCommand(drive, 2500, 1));
+                    commands.add(new DriveCommand(drive, 2200, 1));
                     commands.add(new TurnCommand(drive, 1, 30, imu));
-                    commands.add(new DriveCommand(drive, 2500, 1));
+                    commands.add(new DriveCommand(drive, 2000, 1));
                     commands.add(new TurnCommand(drive,1,-45,imu));
-                    commands.add(new DriveCommand(drive,-5000,-1));
+                    commands.add(new DriveCommand(drive,7000,-1));
                     break;
                 case 1:
                     commands.add(new DriveCommand(drive, 4800, 1));
