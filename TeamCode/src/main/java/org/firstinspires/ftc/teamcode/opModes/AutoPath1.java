@@ -114,7 +114,7 @@ public class AutoPath1 extends OpMode {
         start1=true;
         start2=false;
         currentIndex=0;
-        intakeCommand = new IntakeCommand(intake,0,.6,.4);
+        intakeCommand = new IntakeCommand(intake,0,0,1);
         climbCommand = new ClimbCommand(climber,true);
         path=-2;
         telemetry.addData("Status: ", "init");
@@ -141,10 +141,10 @@ public class AutoPath1 extends OpMode {
         }
         if (start2) {
             //
-            commands.add(new IntakeCommand(intake,-1,.6,.4));
+            commands.add(new IntakeCommand(intake,-1,0,1));
             switch (path) {
                 case 2:
-                    commands.add(new DriveCommand(drive,200,1));
+                    commands.add(new DriveCommand(drive,500,1));
                     commands.add(new TurnCommand(drive, 1, -30, imu));
                     commands.add(new DriveCommand(drive, 2200, 1));
                     commands.add(new TurnCommand(drive, 1, 30, imu));
@@ -157,34 +157,34 @@ public class AutoPath1 extends OpMode {
                     commands.add(new IntakeCommand(intake, 0, -1, 1));
                     commands.add(new DriveCommand(drive, 3250, -1));
                     commands.add(new TurnCommand(drive,1,95,imu));
-                    commands.add(new DriveCommand(drive, 3250, 1));
+                    commands.add(new DriveCommand(drive, 3550, 1));
                     break;
                 case -1:
                     commands.add(new DriveCommand(drive, 4800, 1));
                     commands.add(new IntakeCommand(intake, 0, -1, 1));
                     commands.add(new DriveCommand(drive, 3250, -1));
                     commands.add(new TurnCommand(drive,1,95,imu));
-                    commands.add(new DriveCommand(drive, 3250, 1));
+                    commands.add(new DriveCommand(drive, 5250, 1));
                     break;
                 case 0:
-                    commands.add(new DriveCommand(drive,200,1));
+                    commands.add(new DriveCommand(drive,500,1));
                     commands.add(new TurnCommand(drive, 1, 30, imu));
                     commands.add(new DriveCommand(drive, 3500, 1));
                     commands.add(new TurnCommand(drive, 1,-45, imu));
                     commands.add(new IntakeCommand(intake,0,-1,1));
                     commands.add(new DriveCommand(drive, 1000, 1));
-                    commands.add(new IntakeCommand(intake,-1,.6,.4));
+                    commands.add(new IntakeCommand(intake,-1,0,1));
                     commands.add(new DriveCommand(drive, 600, -1));
                     commands.add(new IntakeCommand(intake,0,-1,1));
                     commands.add(new TurnCommand(drive, 1, 135, imu));
                     commands.add(new DriveCommand(drive, 1500, 1));
-                    commands.add(new IntakeCommand(intake,.2,.6,.4));
+                    commands.add(new IntakeCommand(intake,.2,0,1));
                     commands.add(new TurnCommand(drive,1,105,imu));
-                    commands.add(new DriveCommand(drive,1500,1));
+                    commands.add(new DriveCommand(drive,1700,1));
                     break;
             }
 
-            commands.add(new IntakeCommand(intake, .2, .6, .4));
+            commands.add(new IntakeCommand(intake, .2, 0, 1));
             start2=false;
         }
 
